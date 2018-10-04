@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -82,6 +83,20 @@ public class CommonUtils {
         return key.substring(0,6);
     }
 
+    public static String getMsgCodeOfInt(){
+        StringBuffer stringBuffer = new StringBuffer();
+        for(int i=0;i<6;i++){
+            stringBuffer.append(random());
+        }
+        return stringBuffer.toString();
+    }
+
+    private final static char[] SEEDS = new char[]{'0','1','2','3','4','5','6','7','8','9'};
+    public static char random(){
+        Random random = new Random();
+        return SEEDS[random.nextInt(10)];
+    }
+
     private static int no = 0;
     private static String lastDataStr = null;
 
@@ -101,7 +116,6 @@ public class CommonUtils {
     }
 
     public static void main(String[] args) {
-//        System.out.println(getNo());
-        System.out.println(getMD5("123456"));
+        System.out.println(getMsgCodeOfInt());
     }
 }
