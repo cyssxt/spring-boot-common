@@ -1,6 +1,7 @@
 package com.cyssxt.common.exception;
 
 
+import com.cyssxt.common.message.MessageHelper;
 import com.cyssxt.common.message.bean.MessageInfo;
 import com.cyssxt.common.response.ResponseData;
 
@@ -13,13 +14,14 @@ public class ValidException extends Exception {
         super("参数异常");
         this.responseData = responseData;
     }
-    public ValidException(String msg) {
-        super(msg);
-    }
-
     public ValidException(MessageInfo e) {
         super(e.getRetMsg());
         this.responseData = ResponseData.getFailResponse(e);
+    }
+
+    public ValidException(String code){
+        MessageInfo messageInfo = MessageHelper.getMessageInfo(code);
+        this.responseData = ResponseData.getFailResponse(messageInfo);
     }
 
     public ValidException(MessageInfo e, Object o){

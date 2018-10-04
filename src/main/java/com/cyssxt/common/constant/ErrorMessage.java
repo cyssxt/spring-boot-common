@@ -6,12 +6,15 @@ import lombok.Setter;
 
 public enum ErrorMessage {
     SUCCESS(new MessageInfo("0","SUCCESS"),"成功"),
-    FAIL(new MessageInfo("99999999","FAIL"),"失败"),
-    ID_NOT_NULL(new MessageInfo("99999998","ID不能为空"),"ID不能为空"),
-    NOT_EXIST(new MessageInfo("99999997","记录不存在"),"记录不存在"),
-    HAS_DELETE(new MessageInfo("99999996","记录已经被删除"),"记录已经被删除"),
-    LOAD_SQL_DATA_ERROR(new MessageInfo("99999995","加载sql数据失败"),"加载sql数据失败"),
-    ;
+    FAIL(new MessageInfo("system.fail","FAIL"),"失败"),
+    ID_NOT_NULL(new MessageInfo("content.id.notnull","ID不能为空"),"ID不能为空"),
+    NOT_EXIST(new MessageInfo("content.notexist","记录不存在"),"记录不存在"),
+    HAS_DELETE(new MessageInfo("content.hasdelete","记录已经被删除"),"记录已经被删除"),
+    LOAD_SQL_DATA_ERROR(new MessageInfo("sql.error","加载sql数据失败"),"加载sql数据失败"),
+    PARSE_ERROR(new MessageInfo("parse.error","加载sql数据失败"),"加载sql数据失败"),
+    AUTH_NOT_ENOUGH(new MessageInfo("user.auth.notenough",""),"" ),
+    SHOW_LOGIN_AUTH_NOT_ENOUGH(new MessageInfo("user.should.loginorauth","登录失败或者权限不足"),"登录失败或者权限不足" );
+
     @Setter
     @Getter
     private MessageInfo messageInfo;

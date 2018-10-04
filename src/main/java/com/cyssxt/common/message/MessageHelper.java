@@ -41,6 +41,11 @@ public class MessageHelper {
         }
     }
 
+    public static MessageInfo getMessageInfo(String code) {
+        String value = getString(code);
+        return new MessageInfo(code,value);
+    }
+
     private static class Message{
         private String lang;
 
@@ -125,12 +130,15 @@ public class MessageHelper {
         }
         langMap.put(lang,map);
     }
-
     public static void init() throws IOException {
+        init(null);
+    }
+    public static void init(String basePackage) throws IOException {
         ClassLoader classLoader = MessageHelper.class.getClassLoader();
         Enumeration<URL> is = classLoader.getResources("message");
         while (is!=null && is.hasMoreElements()){
             URL url = is.nextElement();
+            System.out.println("======"+url.getPath());
             String protocol = url.getProtocol();
             if("file".equals(protocol)){
                 File pFile = new File(url.getPath());
@@ -163,11 +171,20 @@ public class MessageHelper {
                 }
             }
         }
+        if(!StringUtils.isEmpty(basePackage)) {
+            System.out.println(basePackage);
+            System.out.println(langMap+"====");
+            MessageGenerator.generator(basePackage,langMap);
+        }
     }
 
     public static String getString(String key,String lang){
         Message message = getInstance(lang);
         return message.getString(key);
+    }
+
+    public static String getString(String key){
+        return getString(key,null);
     }
 
     public static void main(String[] args) {
