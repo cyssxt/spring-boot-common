@@ -2,13 +2,10 @@ buildscript {
     ext {
         springBootVersion = '2.0.5.RELEASE'
     }
-    repositories {
-        mavenCentral()
-    }
 }
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'io.spring.dependency-management'
 
 group = 'com.cyssxt'
 version = '0.0.1-SNAPSHOT'
@@ -28,12 +25,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-redis:2.0.5.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-web:2.0.5.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf:2.0.5.RELEASE')
-    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
     compile("io.springfox:springfox-swagger-ui:2.9.2")
     compile("io.springfox:springfox-swagger2:2.9.2")
-//    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.8.3'
-    // https://mvnrepository.com/artifact/asm/asm
     compile group: 'asm', name: 'asm', version: '3.3.1'
-
-
 }
