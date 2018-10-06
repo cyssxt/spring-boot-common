@@ -51,15 +51,25 @@ public class RedisDao {
         logger.debug("key={},value={}",key,t);
     }
 
+    public Boolean delKey(String key){
+        return redisTemplate.delete(key);
+    }
+
     public  <T> void objectSetWithExpireTime(String key, T t, int time,TimeUnit unit){
         ValueOperations<String, T> ops = redisTemplate.opsForValue();
         ops.set(key,t,time,unit);
         logger.debug("key={},value={}",key,t);
     }
 
-    public Object getObjectValue(String key){
-        ValueOperations<String, Object> ops = this.redisTemplate.opsForValue();
-        Object t = ops.get(key);
+    public  <T> void objectSet(String key, T t){
+        ValueOperations<String, T> ops = redisTemplate.opsForValue();
+        ops.set(key,t);
+        logger.debug("key={},value={}",key,t);
+    }
+
+    public <T>T getObjectValue(String key){
+        ValueOperations<String, T> ops = this.redisTemplate.opsForValue();
+        T t = ops.get(key);
         return t;
     }
 

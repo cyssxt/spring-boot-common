@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Aspect
@@ -55,6 +56,7 @@ public class ControllerAspect {
     @Around("execution(public * com.cyssxt.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public Object validController(ProceedingJoinPoint joinPoint) throws ValidException {
         Timestamp start = DateUtils.getCurrentTimestamp();
+        logger.info("aop start={}",new java.util.Date());
         logger.info("controller={},valid={}", joinPoint.getTarget().getClass(), joinPoint.getSignature().getName());
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
@@ -90,7 +92,7 @@ public class ControllerAspect {
         }
         Authorization authorization = method.getAnnotation(Authorization.class);
         if (authorization != null) {
-            if (userLoginListener != null && !userLoginListener.login(authorization)) {
+            if (userLoginListener != null && !userLoginListener.login(authorization,sessionId)) {
                 throw new ValidException(ErrorMessage.SHOW_LOGIN_AUTH_NOT_ENOUGH.getMessageInfo());
             }
         }
@@ -118,6 +120,7 @@ public class ControllerAspect {
             responseData.setNextReqId(nextReqId);
             responseData.setReqTime(endTime.getTime() - start.getTime());
         }
+        logger.info("aop end={},start={},end={}",new java.util.Date(),start,endTime);
         return result;
     }
 }

@@ -4,5 +4,5 @@ import com.cyssxt.common.annotation.Authorization;
 
 public interface UserLoginListener {
 
-    boolean login(Authorization authorization);
+    boolean login(Authorization authorization, String sessionId);
 }

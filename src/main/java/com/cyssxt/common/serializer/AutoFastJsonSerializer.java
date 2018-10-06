@@ -8,6 +8,8 @@ import com.alibaba.fastjson.util.IOUtils;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
+import java.util.Date;
+
 /**
  * Created by zqy on 19/05/2018.
  */
@@ -45,6 +47,4 @@ public class AutoFastJsonSerializer implements RedisSerializer<Object> {
         defaultRedisConfig.setAutoTypeSupport(true);
     }
 
-    public static void main(String[] args) {
-    }
 }

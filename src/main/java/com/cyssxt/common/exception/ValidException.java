@@ -20,6 +20,7 @@ public class ValidException extends Exception {
     }
 
     public ValidException(String code){
+        super(code);
         MessageInfo messageInfo = MessageHelper.getMessageInfo(code);
         this.responseData = ResponseData.getFailResponse(messageInfo);
     }

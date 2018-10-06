@@ -15,6 +15,7 @@ import java.util.UUID;
 public class CommonUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(CommonUtils.class);
+    public static final int DEFAULT_RANDOM_LENGTH = 5;
 
     /**
      * 判断对象为空
@@ -100,8 +101,11 @@ public class CommonUtils {
     private static int no = 0;
     private static String lastDataStr = null;
 
-    private static String fillStr(int no){
-        int randomLength = 5;
+    public static String fillStr(int no){
+        return fillStr(no, DEFAULT_RANDOM_LENGTH);
+    }
+
+    public static String fillStr(int no,int randomLength){
         StringBuffer stringBuffer = new StringBuffer();
         int length = (randomLength-(no+"").length());
         while(length<0){
