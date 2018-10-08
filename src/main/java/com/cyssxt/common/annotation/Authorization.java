@@ -17,5 +17,7 @@ public @interface Authorization {
 
     byte[] value() default {};
 
+    boolean isAll() default false;
+
     ErrorMessage message() default ErrorMessage.AUTH_NOT_ENOUGH;
 }
