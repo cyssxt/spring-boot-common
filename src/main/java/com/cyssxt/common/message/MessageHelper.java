@@ -174,7 +174,7 @@ public class MessageHelper {
         if(!StringUtils.isEmpty(basePackage)) {
             System.out.println(basePackage);
             System.out.println(langMap+"====");
-            MessageGenerator.generator(basePackage,langMap);
+//            MessageGenerator.generator(basePackage,langMap);
         }
     }
 
