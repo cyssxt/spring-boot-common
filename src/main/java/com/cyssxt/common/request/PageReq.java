@@ -26,6 +26,10 @@ public class PageReq extends BaseReq {
         this.pageSize = pageSize;
     }
 
+    public Integer getOffset(){
+        return (this.getPageNo()-1)*pageNo;
+    }
+
     public Pageable toPageable(){
         return PageRequest.of(pageNo-1,pageSize);
     }

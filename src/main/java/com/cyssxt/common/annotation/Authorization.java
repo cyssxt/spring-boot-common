@@ -19,5 +19,7 @@ public @interface Authorization {
 
     boolean isAll() default false;
 
+    boolean isAdmin() default false;
+
     ErrorMessage message() default ErrorMessage.AUTH_NOT_ENOUGH;
 }
