@@ -17,11 +17,12 @@ import java.util.Map;
 import java.util.Set;
 //@SupportedAnnotationTypes({"com.cyssxt.common.annotation.Message"})
 //@SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class MessageGeneratorProcessor extends AbstractProcessor {
+public class MessageGeneratorProcessor{
+    // extends AbstractProcessor {
 
-    @Override
+//    @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
-        super.init(processingEnv);
+//        super.init(processingEnv);
 //        Messager messager = processingEnv.getMessager();
 //        Elements elementsUtils = processingEnv.getElementUtils();
 //
@@ -34,7 +35,7 @@ public class MessageGeneratorProcessor extends AbstractProcessor {
 
     }
 
-    @Override
+//    @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 //        for (TypeElement typeElement : annotations) {
 //            for (Element element : roundEnv
