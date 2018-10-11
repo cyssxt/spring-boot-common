@@ -15,45 +15,45 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
-@SupportedAnnotationTypes({"com.cyssxt.common.annotation.Message"})
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+//@SupportedAnnotationTypes({"com.cyssxt.common.annotation.Message"})
+//@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class MessageGeneratorProcessor extends AbstractProcessor {
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        Messager messager = processingEnv.getMessager();
-        Elements elementsUtils = processingEnv.getElementUtils();
-
-        // 在这里打印gradle文件传进来的参数
-        Map<String, String> map = processingEnv.getOptions();
-        for (String key : map.keySet()) {
-            System.out.println(key+"===========");
-            messager.printMessage(Diagnostic.Kind.NOTE, "key" + "：" + map.get(key));
-        }
+//        Messager messager = processingEnv.getMessager();
+//        Elements elementsUtils = processingEnv.getElementUtils();
+//
+//        // 在这里打印gradle文件传进来的参数
+//        Map<String, String> map = processingEnv.getOptions();
+//        for (String key : map.keySet()) {
+//            System.out.println(key+"===========");
+//            messager.printMessage(Diagnostic.Kind.NOTE, "key" + "：" + map.get(key));
+//        }
 
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (TypeElement typeElement : annotations) {
-            for (Element element : roundEnv
-                    .getElementsAnnotatedWith(typeElement)) {
-                //获取Annotation
-                Message message = element
-                        .getAnnotation(Message.class);
-                if (message != null) {
-                    String basePackage = message.value();
-                    basePackage = basePackage.replace(".", File.separator);
-                    try {
-                        MessageHelper.init(basePackage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }
+//        for (TypeElement typeElement : annotations) {
+//            for (Element element : roundEnv
+//                    .getElementsAnnotatedWith(typeElement)) {
+//                //获取Annotation
+//                Message message = element
+//                        .getAnnotation(Message.class);
+//                if (message != null) {
+//                    String basePackage = message.value();
+//                    basePackage = basePackage.replace(".", File.separator);
+//                    try {
+//                        MessageHelper.init(basePackage);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//
+//        }
         return false;
     }
 }
