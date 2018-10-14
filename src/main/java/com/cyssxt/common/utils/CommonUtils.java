@@ -120,6 +120,6 @@ public class CommonUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getMsgCodeOfInt());
+        System.out.println(CommonUtils.getMD5("123456"));
     }
 }
