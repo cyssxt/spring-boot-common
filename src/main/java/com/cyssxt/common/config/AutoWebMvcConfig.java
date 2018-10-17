@@ -15,6 +15,8 @@ import com.cyssxt.common.entity.BaseEntity;
 import com.cyssxt.common.handler.VersionRequestMappingHandlerMapping;
 import com.cyssxt.common.utils.FilterUtils;
 import com.cyssxt.common.utils.ReflectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpOutputMessage;
@@ -39,6 +41,8 @@ import java.util.Map;
  */
 @Component
 public class AutoWebMvcConfig extends WebMvcConfigurationSupport {
+
+    private final static Logger logger = LoggerFactory.getLogger(AutoWebMvcConfig.class);
     class SortMapSerializer extends MapSerializer {
         @Override
         public void write(com.alibaba.fastjson.serializer.JSONSerializer jsonSerializer, Object object, Object fieldName, Type type, int features) throws IOException {
@@ -68,14 +72,24 @@ public class AutoWebMvcConfig extends WebMvcConfigurationSupport {
     }
 
     @Override
+    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(getFastJsonHttpMessageConverter());
+    }
+
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        for (HttpMessageConverter<?> messageConverter : converters) {
+            logger.info("messageConverter={}",messageConverter);
+        }
+    }
+
+    @Override
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
         RequestMappingHandlerMapping handlerMapping = new VersionRequestMappingHandlerMapping();
         handlerMapping.setOrder(0);
         return handlerMapping;
     }
-
-    @Bean
-    public HttpMessageConverters fastJsonHttpMessageConverters() {
+    public FastJsonHttpMessageConverter getFastJsonHttpMessageConverter(){
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter() {
             @Override
             protected void writeInternal(Object object, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
@@ -127,8 +141,13 @@ public class AutoWebMvcConfig extends WebMvcConfigurationSupport {
         //4.在convert中添加配置信息.
         fastJsonHttpMessageConverter.setSupportedMediaTypes(fastMediaTypes);
         fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
+        return fastJsonHttpMessageConverter;
+    }
+
+    @Bean
+    public HttpMessageConverters fastJsonHttpMessageConverters() {
         //5.将convert添加到converters当中
-        return new HttpMessageConverters((HttpMessageConverter<?>) fastJsonHttpMessageConverter);
+        return new HttpMessageConverters((HttpMessageConverter<?>) getFastJsonHttpMessageConverter());
     }
 
 //    @Override

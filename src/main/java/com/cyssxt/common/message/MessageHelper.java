@@ -126,6 +126,9 @@ public class MessageHelper {
         while(iterator.hasNext()){
             String key = (String)iterator.next();
             String value = properties.getProperty(key);
+            if(!StringUtils.isEmpty(value)){
+                value = new String(value.getBytes("iso-8859-1"),"utf-8");
+            }
             map.put(key,value);
         }
         langMap.put(lang,map);
