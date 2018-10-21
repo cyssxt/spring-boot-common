@@ -12,7 +12,6 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.cyssxt.common.config.bean.AutoSortHashMap;
 import com.cyssxt.common.config.bean.FilterJSONSerializer;
 import com.cyssxt.common.entity.BaseEntity;
-import com.cyssxt.common.handler.VersionRequestMappingHandlerMapping;
 import com.cyssxt.common.utils.FilterUtils;
 import com.cyssxt.common.utils.ReflectUtils;
 import org.slf4j.Logger;
@@ -25,10 +24,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.thymeleaf.util.ArrayUtils;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
@@ -40,7 +36,7 @@ import java.util.Map;
  * Created by zqy on 15/05/2018.
  */
 @Component
-public class AutoWebMvcConfig extends WebMvcConfigurationSupport {
+public class AutoWebMvcConfig{
 
     private final static Logger logger = LoggerFactory.getLogger(AutoWebMvcConfig.class);
     class SortMapSerializer extends MapSerializer {
@@ -71,24 +67,6 @@ public class AutoWebMvcConfig extends WebMvcConfigurationSupport {
         }
     }
 
-    @Override
-    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(getFastJsonHttpMessageConverter());
-    }
-
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        for (HttpMessageConverter<?> messageConverter : converters) {
-            logger.info("messageConverter={}",messageConverter);
-        }
-    }
-
-    @Override
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping handlerMapping = new VersionRequestMappingHandlerMapping();
-        handlerMapping.setOrder(0);
-        return handlerMapping;
-    }
     public FastJsonHttpMessageConverter getFastJsonHttpMessageConverter(){
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter() {
             @Override

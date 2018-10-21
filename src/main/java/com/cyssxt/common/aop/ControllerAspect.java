@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.beanvalidation.BeanValidationPostProcessor;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +35,10 @@ public class ControllerAspect {
     @Resource
     private UserLoginListener userLoginListener;
 
-    @Pointcut("execution(public * com.cyssxt.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
-    public void point() {
-
-    }
+//    @Pointcut("execution(public * com.cyssxt.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+//    public void point() {
+//
+//    }
 
     public String getRealIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
@@ -77,6 +79,7 @@ public class ControllerAspect {
                 reqId = req.getReqId();
                 sessionId = req.getSessionId();
             }
+//            SpringValidatorAdapter
             if (object instanceof BindingResult) {
                 bindingResult = (BindingResult) object;
                 if (bindingResult.hasErrors()) {

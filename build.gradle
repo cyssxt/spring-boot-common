@@ -25,6 +25,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-redis:2.0.5.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-web:2.0.5.RELEASE')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf:2.0.5.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-validation:2.0.5.RELEASE')
     compile("io.springfox:springfox-swagger-ui:2.9.2")
     compile("io.springfox:springfox-swagger2:2.9.2")
     compile group: 'asm', name: 'asm', version: '3.3.1'

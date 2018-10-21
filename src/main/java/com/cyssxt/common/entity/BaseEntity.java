@@ -52,11 +52,13 @@ public abstract class BaseEntity {
     public BaseEntity(){
         //初始化字段过滤
         String[] excludeFields = defineExcludes();
-        int len = excludeFields.length;
-        int tLen = this.excludeFields.length;
-        excludeFields = Arrays.copyOf(excludeFields, len+tLen);//数组扩容
-        System.arraycopy(excludeFields, 0, excludeFields, len, tLen);
-        this.setExcludeFields(excludeFields);
+        if(excludeFields!=null && excludeFields.length>0) {
+            int len = excludeFields.length;
+            int tLen = this.excludeFields.length;
+            excludeFields = Arrays.copyOf(excludeFields, len + tLen);//数组扩容
+            System.arraycopy(this.excludeFields, 0, excludeFields, 1, tLen);
+            this.setExcludeFields(excludeFields);
+        }
         this.setRowId(CommonUtils.generatorKey());
         this.setCreateTime(DateUtils.getCurrentTimestamp());
         this.setUpdateTime(this.getCreateTime());
