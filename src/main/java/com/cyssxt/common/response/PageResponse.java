@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class PageResponse<T> {
     private int pageNo;
-    private List<T> t;
+    private List<T> items;
     private int pageSize;
     private int totalPage;
     private long totalCount;
@@ -22,12 +22,12 @@ public class PageResponse<T> {
         this.pageNo = pageNo;
     }
 
-    public List<T> getT() {
-        return t;
+    public List<T> getItems() {
+        return items;
     }
 
-    public void setT(List<T> t) {
-        this.t = t;
+    public void setItems(List<T> items) {
+        this.items = items;
     }
 
     public int getPageSize() {
@@ -59,12 +59,12 @@ public class PageResponse<T> {
         this.setPageSize(page.getPageable().getPageSize());
         this.setTotalPage(page.getTotalPages());
         this.setTotalCount(page.getTotalElements());
-        this.setT(page.getContent());
+        this.setItems(page.getContent());
     }
 
     public PageResponse( List<T> t,int pageNo, int pageSize,long totalCount) {
         this.pageNo = pageNo;
-        this.t = t;
+        this.items = t;
         this.pageSize = pageSize;
         this.totalCount = totalCount;
         this.totalPage = (int)Math.ceil(Double.valueOf(totalCount)/pageSize);

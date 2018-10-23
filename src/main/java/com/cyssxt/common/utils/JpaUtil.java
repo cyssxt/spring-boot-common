@@ -32,12 +32,16 @@ public class JpaUtil {
             throw new ValidException(ErrorMessage.NOT_EXIST.getMessageInfo());
         }
         T entity = optional.get();
-        return check(entity,checkExpireTime);
+        return check(entity);
     }
 
-    public static <T extends BaseEntity> T check(T entity,boolean checkDelete) throws ValidException {
+    public static <T extends BaseEntity> T check(T entity,boolean checkDelete,String messageCode) throws ValidException {
         if(entity==null){
-            throw new ValidException(ErrorMessage.NOT_EXIST.getMessageInfo());
+            if(!StringUtils.isEmpty(messageCode)){
+                throw new ValidException(messageCode);
+            }else{
+                throw new ValidException(ErrorMessage.NOT_EXIST.getMessageInfo());
+            }
         }
         if(entity.getDelFlag()!=null && entity.getDelFlag() && checkDelete){
             throw new ValidException(ErrorMessage.HAS_DELETE.getMessageInfo());
@@ -48,8 +52,12 @@ public class JpaUtil {
         return entity;
     }
 
+    public static <T extends BaseEntity> T check(T entity,boolean checkDelete) throws ValidException {
+        return check(entity,checkDelete,null);
+    }
+
     public static <T extends BaseEntity> T check(T entity) throws ValidException {
-        return check(entity,true);
+        return check(entity,true,null);
     }
 
 }
