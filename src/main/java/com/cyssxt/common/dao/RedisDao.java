@@ -2,10 +2,7 @@ package com.cyssxt.common.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -96,6 +93,21 @@ public class RedisDao {
     public String spopStr(String key){
         SetOperations<String,String> ops = this.stringRedisTemplate.opsForSet();
         return ops.pop(key);
+    }
+
+    public <T> void hset(String key,String hashKey,T value){
+        HashOperations<String,String,T> hashOperations = this.stringRedisTemplate.opsForHash();
+        hashOperations.put(key,hashKey,value);
+    }
+
+    public <T> T hget(String key,String hashKey){
+        HashOperations<String,String,T> hashOperations = this.stringRedisTemplate.opsForHash();
+        return hashOperations.get(key,hashKey);
+    }
+
+    public <T> Long hdel(String key,String hashKey){
+        HashOperations<String,String,T> hashOperations = this.stringRedisTemplate.opsForHash();
+        return hashOperations.delete(key,hashKey);
     }
 
 }

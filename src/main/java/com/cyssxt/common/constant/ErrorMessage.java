@@ -14,7 +14,8 @@ public enum ErrorMessage {
     PARSE_ERROR(new MessageInfo("parse.error","加载sql数据失败"),"加载sql数据失败"),
     AUTH_NOT_ENOUGH(new MessageInfo("user.auth.notenough",""),"" ),
     SHOW_LOGIN_AUTH_NOT_ENOUGH(new MessageInfo("user.should.loginorauth","登录失败或者权限不足"),"登录失败或者权限不足" ),
-    JSON_PARSE_ERROR(new MessageInfo("system.json.parseerror","系统json解析错误"),"系统json解析错误" );
+    JSON_PARSE_ERROR(new MessageInfo("system.json.parseerror","系统json解析错误"),"系统json解析错误" ),
+    SESSION_NOT_VALID(new MessageInfo("system.session.notvalid","session无效"),"session无效" );
 
     @Setter
     @Getter

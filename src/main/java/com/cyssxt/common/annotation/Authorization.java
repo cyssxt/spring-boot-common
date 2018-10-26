@@ -21,5 +21,7 @@ public @interface Authorization {
 
     boolean isAdmin() default false;
 
+    boolean existSession() default false;//只校验session是否存在
+
     ErrorMessage message() default ErrorMessage.AUTH_NOT_ENOUGH;
 }

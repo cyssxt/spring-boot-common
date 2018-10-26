@@ -12,19 +12,16 @@ import com.cyssxt.common.utils.DateUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.beanvalidation.BeanValidationPostProcessor;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Aspect
@@ -58,7 +55,7 @@ public class ControllerAspect {
     @Around("execution(public * com.cyssxt.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public Object validController(ProceedingJoinPoint joinPoint) throws ValidException {
         Timestamp start = DateUtils.getCurrentTimestamp();
-        logger.info("aop start={}",new java.util.Date());
+        logger.info("aop start={}", new java.util.Date());
         logger.info("controller={},valid={}", joinPoint.getTarget().getClass(), joinPoint.getSignature().getName());
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
@@ -93,10 +90,20 @@ public class ControllerAspect {
                 request = (HttpServletRequest) object;
             }
         }
+        //校验sessionId是否有效
+        if (!StringUtils.isEmpty(sessionId) && !userLoginListener.checkSessionId(sessionId)) {
+            throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
+        }
         Authorization authorization = method.getAnnotation(Authorization.class);
         if (authorization != null) {
-            if (userLoginListener != null && !userLoginListener.login(authorization,sessionId)) {
-                throw new ValidException(ErrorMessage.SHOW_LOGIN_AUTH_NOT_ENOUGH.getMessageInfo());
+            if (authorization.existSession()) {
+                if (StringUtils.isEmpty(sessionId)) {
+                    throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
+                }
+            } else {
+                if (userLoginListener != null && !userLoginListener.login(authorization, sessionId)) {
+                    throw new ValidException(ErrorMessage.SHOW_LOGIN_AUTH_NOT_ENOUGH.getMessageInfo());
+                }
             }
         }
         ValidRepeat validRepeat = method.getAnnotation(ValidRepeat.class);
@@ -123,7 +130,7 @@ public class ControllerAspect {
             responseData.setNextReqId(nextReqId);
             responseData.setReqTime(endTime.getTime() - start.getTime());
         }
-        logger.info("aop end={},start={},end={}",new java.util.Date(),start,endTime);
+        logger.info("aop end={},start={},end={}", new java.util.Date(), start, endTime);
         return result;
     }
 }

@@ -27,6 +27,7 @@ public class ResponseData<T> {
     private long reqTime=0;
     private String nextReqId;
     private T data;
+    private Byte loginStatus;
     private List<String> errors = new ArrayList<>();
     public ResponseData(){
         this.parseCode(ErrorMessage.SUCCESS.getMessageInfo());
@@ -38,7 +39,6 @@ public class ResponseData<T> {
         if(baseReq!=null){
             sessionId = baseReq.getSessionId();
             responseData.setReqId(baseReq.getReqId());
-            sessionId = StringUtils.isEmpty(sessionId)?CommonUtils.generatorKey():sessionId;
         }
         responseData.setSessionId(sessionId);
         return responseData;

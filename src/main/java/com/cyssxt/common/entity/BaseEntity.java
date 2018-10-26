@@ -1,11 +1,11 @@
 package com.cyssxt.common.entity;
 
+import com.cyssxt.common.bean.Copy;
 import com.cyssxt.common.utils.CommonUtils;
 import com.cyssxt.common.utils.DateUtils;
 import com.cyssxt.common.utils.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by zqy on 18/05/2018.
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity extends Copy {
 
     public abstract void setCreateTime(Timestamp timestamp);
     public abstract void setUpdateTime(Timestamp timestamp);
