@@ -27,7 +27,6 @@ public class ResponseData<T> {
     private long reqTime=0;
     private String nextReqId;
     private T data;
-    private Byte loginStatus;
     private List<String> errors = new ArrayList<>();
     public ResponseData(){
         this.parseCode(ErrorMessage.SUCCESS.getMessageInfo());
