@@ -30,7 +30,7 @@ public abstract class BaseEntity extends Copy {
     public Timestamp getExpireTime(){
         return null;
     }
-    private String[] excludeFields = new String[]{"delFlag","excludeFields","includeFields","createTime","updateTime"};
+    private String[] excludeFields = new String[]{"delFlag","excludeFields","includeFields","expireTime"};
     private String[] includeFields = null;
 
     public String[] getExcludeFields() {
