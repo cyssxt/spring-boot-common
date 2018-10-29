@@ -54,7 +54,7 @@ public abstract class BaseEntity extends Copy implements Serializable {
             int len = excludeFields.length;
             int tLen = this.excludeFields.length;
             excludeFields = Arrays.copyOf(excludeFields, len + tLen);//数组扩容
-            System.arraycopy(this.excludeFields, 0, excludeFields, 1, tLen);
+            System.arraycopy(this.excludeFields, 0, excludeFields, len, tLen);
             this.setExcludeFields(excludeFields);
         }
         this.setRowId(CommonUtils.generatorKey());
