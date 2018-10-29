@@ -7,6 +7,7 @@ import com.cyssxt.common.utils.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.beans.IntrospectionException;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
@@ -18,7 +19,7 @@ import java.util.Map;
 /**
  * Created by zqy on 18/05/2018.
  */
-public abstract class BaseEntity extends Copy {
+public abstract class BaseEntity extends Copy implements Serializable {
 
     public abstract void setCreateTime(Timestamp timestamp);
     public abstract void setUpdateTime(Timestamp timestamp);
@@ -27,10 +28,7 @@ public abstract class BaseEntity extends Copy {
     public abstract void setDelFlag(Boolean flag);
     public String[] defineExcludes(){return  new String[]{};}
     public abstract Boolean getDelFlag();
-    public Timestamp getExpireTime(){
-        return null;
-    }
-    private String[] excludeFields = new String[]{"delFlag","excludeFields","includeFields","expireTime"};
+    private String[] excludeFields = new String[]{"delFlag","excludeFields","includeFields"};
     private String[] includeFields = null;
 
     public String[] getExcludeFields() {
