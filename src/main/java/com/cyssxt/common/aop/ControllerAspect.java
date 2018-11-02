@@ -91,8 +91,11 @@ public class ControllerAspect {
             }
         }
         //校验sessionId是否有效
-        if (!StringUtils.isEmpty(sessionId) && !userLoginListener.checkSessionId(sessionId)) {
-            throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
+        if (!StringUtils.isEmpty(sessionId)){
+            if(!userLoginListener.checkSessionId(sessionId)) {
+                throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
+            }
+            userLoginListener.cacheUserInfo(sessionId);
         }
         Authorization authorization = method.getAnnotation(Authorization.class);
         if (authorization != null) {
@@ -101,7 +104,7 @@ public class ControllerAspect {
                     throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
                 }
             } else {
-                if (userLoginListener != null && !userLoginListener.login(authorization, sessionId)) {
+                if (userLoginListener != null && !userLoginListener.login(authorization)) {
                     throw new ValidException(ErrorMessage.SHOW_LOGIN_AUTH_NOT_ENOUGH.getMessageInfo());
                 }
             }

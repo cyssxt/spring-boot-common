@@ -23,13 +23,16 @@ public class JpaUtil {
         return check(id,repository,true);
     }
 
-    public static <T extends BaseEntity> T check(String id, BaseRepository repository, boolean checkExpireTime) throws ValidException {
+    public static <T extends BaseEntity> T check(String id, BaseRepository repository, boolean throwException) throws ValidException {
         if(StringUtils.isEmpty(id)){
             throw new ValidException(ErrorMessage.ID_NOT_NULL.getMessageInfo());
         }
         Optional<T> optional = repository.findById(id);
         if(!optional.isPresent()){
-            throw new ValidException(ErrorMessage.NOT_EXIST.getMessageInfo());
+            if(throwException){
+                throw new ValidException(ErrorMessage.NOT_EXIST.getMessageInfo());
+            }
+            return null;
         }
         T entity = optional.get();
         return check(entity);
