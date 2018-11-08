@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -70,6 +71,11 @@ public class RedisDao {
         return t;
     }
 
+    public void setStringValue(String key,String value,int timeout,TimeUnit timeUnit){
+        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
+        ops.set(key,value,timeout,timeUnit);
+    }
+
     public String getStringValue(String key){
         ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
         return ops.get(key);
@@ -109,5 +115,15 @@ public class RedisDao {
         HashOperations<String,String,T> hashOperations = this.stringRedisTemplate.opsForHash();
         return hashOperations.delete(key,hashKey);
     }
+
+    public <T> Set<String> hKeys(String key){
+        HashOperations<String,String,T> hashOperations = this.stringRedisTemplate.opsForHash();
+        return hashOperations.keys(key);
+    }
+
+    public boolean clear(String key){
+        return this.stringRedisTemplate.delete(key);
+    }
+
 
 }
