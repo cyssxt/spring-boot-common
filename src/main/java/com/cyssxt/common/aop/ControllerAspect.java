@@ -105,7 +105,7 @@ public class ControllerAspect {
                 }
             } else {
                 if (userLoginListener != null && !userLoginListener.login(authorization)) {
-                    throw new ValidException(ErrorMessage.SHOW_LOGIN_AUTH_NOT_ENOUGH.getMessageInfo());
+                    throw new ValidException(ErrorMessage.AUTH_NOT_ENOUGH.getMessageInfo());
                 }
             }
         }
