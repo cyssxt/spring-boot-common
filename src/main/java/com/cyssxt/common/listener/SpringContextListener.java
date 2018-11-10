@@ -27,7 +27,7 @@ public class SpringContextListener implements ApplicationListener<ContextRefresh
         redisDao.setKey("start_str","1");
     }
 
-    public synchronized static Object getBean(String beanName){
+    public static Object getBean(String beanName){
         return context.getBean(beanName);
     }
 
