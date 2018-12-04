@@ -52,7 +52,7 @@ public class ControllerAspect {
         return ip;
     }
 
-    @Around("execution(public * com.cyssxt.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    @Around("execution(public * com.*.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public Object validController(ProceedingJoinPoint joinPoint) throws ValidException {
         Timestamp start = DateUtils.getCurrentTimestamp();
         logger.info("aop start={}", new java.util.Date());

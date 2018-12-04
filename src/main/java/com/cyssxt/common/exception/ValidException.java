@@ -25,6 +25,13 @@ public class ValidException extends Exception {
         this.responseData = ResponseData.getFailResponse(messageInfo);
     }
 
+    public ValidException(String code,Exception e){
+        super(code);
+        MessageInfo messageInfo = MessageHelper.getMessageInfo(code);
+        this.responseData = ResponseData.getFailResponse(messageInfo);
+        this.responseData.getErrors().add(e);
+    }
+
     public ValidException(MessageInfo e, Object o){
         super(e.getRetMsg());
         this.responseData = ResponseData.getFailResponse(e);

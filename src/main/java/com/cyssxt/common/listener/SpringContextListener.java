@@ -23,8 +23,6 @@ public class SpringContextListener implements ApplicationListener<ContextRefresh
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         logger.info("onApplicationEvent,容器启动");
         context = contextRefreshedEvent.getApplicationContext();
-        redisDao.objectSet("start",new Date());
-        redisDao.setKey("start_str","1");
     }
 
     public static Object getBean(String beanName){
