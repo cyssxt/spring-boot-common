@@ -30,12 +30,13 @@ public class ValidException extends Exception {
         MessageInfo messageInfo = MessageHelper.getMessageInfo(code);
         this.responseData = ResponseData.getFailResponse(messageInfo);
         this.responseData.getErrors().add(e);
+        this.responseData.setException(e);
     }
 
-    public ValidException(MessageInfo e, Object o){
+    public ValidException(MessageInfo e, Throwable throwable){
         super(e.getRetMsg());
         this.responseData = ResponseData.getFailResponse(e);
-        this.responseData.setData(o);
+        this.responseData.setException(throwable);
     }
 
     public ValidException(MessageInfo e, String msg, Object o){

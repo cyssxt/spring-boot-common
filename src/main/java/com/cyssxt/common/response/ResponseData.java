@@ -26,6 +26,7 @@ public class ResponseData<T> {
     private String retMsg;
     private long reqTime=0;
     private String nextReqId;
+    private Throwable exception;
     private T data;
     private List<String> errors = new ArrayList<>();
     public ResponseData(){
