@@ -5,9 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by 520cloud on 2017-09-05.
@@ -121,5 +119,28 @@ public class CommonUtils {
 
     public static void main(String[] args) {
         System.out.println(CommonUtils.getMD5("123456"));
+    }
+
+    private final static Map<String,Integer> cacheOrder = new HashMap<>();
+    private static Date lastDate = new Date();
+
+    public static String getOrderNo() {
+        Date now = new Date();
+        if(lastDate!=null){
+            String value = DateUtils.getDataFormatString(lastDate,"yyyyMMdd");
+            String nowString = DateUtils.getDataFormatString(now,"yyyyMMdd");
+            if(value.equals(nowString)){
+
+            }
+        }
+        Random random = new Random();
+        String orderNo = String.format("%s%s",random.nextInt(10000));
+        Integer old = cacheOrder.get(orderNo);
+        if(old!=null){
+            orderNo = getOrderNo();
+        }
+        cacheOrder.put(orderNo,1);
+        lastDate = new Date();
+        return orderNo;
     }
 }

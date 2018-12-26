@@ -47,6 +47,14 @@ public class QuerydslUtils {
         return pageResponse;
     }
 
+    public  static <T> List<T> applyNativePage(String sql, EntityManager entityManager,Parameter parameter,Class alias){
+        Query query = entityManager.createNativeQuery(sql);
+        parameter.initParam(query);
+        query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.aliasToBean(alias));
+        List<T> list = query.getResultList();
+        return list;
+    }
+
 
 
     public static String like(String value){
