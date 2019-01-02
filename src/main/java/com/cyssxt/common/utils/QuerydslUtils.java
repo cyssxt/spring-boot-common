@@ -41,7 +41,7 @@ public class QuerydslUtils {
         int pageNo = pageReq.getPageNo();
         int pageSize = pageReq.getPageSize();
         query.setFirstResult((pageNo-1)*pageSize);
-        query.setMaxResults(pageNo);
+        query.setMaxResults(pageSize);
         List<T> list = query.getResultList();
         PageResponse pageResponse = new PageResponse(list,pageNo,pageSize,totalCount);
         return pageResponse;
