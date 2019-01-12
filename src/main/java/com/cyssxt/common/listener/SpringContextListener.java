@@ -19,7 +19,6 @@ public class SpringContextListener implements ApplicationListener<ContextRefresh
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        logger.info("onApplicationEvent,容器启动");
         context = contextRefreshedEvent.getApplicationContext();
     }
 

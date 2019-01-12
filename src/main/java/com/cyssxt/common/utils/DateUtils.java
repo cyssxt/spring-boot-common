@@ -4,6 +4,7 @@ package com.cyssxt.common.utils;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -19,6 +20,12 @@ public class DateUtils {
 
     public static Timestamp getCurrentTimestamp(){
         return new Timestamp(new Date().getTime());
+    }
+
+    public static Timestamp getCurrentTimestampBeforeHour(int hour){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR,hour);
+        return new Timestamp(calendar.getTime().getTime());
     }
 
     public static String getDataFormatString(Date date,String format){
