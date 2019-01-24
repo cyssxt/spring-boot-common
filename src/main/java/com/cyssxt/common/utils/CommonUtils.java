@@ -4,6 +4,7 @@ import com.cyssxt.common.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.*;
@@ -123,29 +124,35 @@ public class CommonUtils {
     }
 
     private final static Map<String,Integer> cacheOrder = new HashMap<>();
-    private static Date lastDate = new Date();
 
     public static String getOrderNo() {
-        Date now = new Date();
-        if(lastDate!=null){
-            String value = DateUtils.getDataFormatString(lastDate,"yyyyMMdd");
-            String nowString = DateUtils.getDataFormatString(now,"yyyyMMdd");
-            if(value.equals(nowString)){
-
-            }
-        }
         Random random = new Random();
-        String orderNo = String.format("%s%s",random.nextInt(10000));
+        String orderNo = String.format("%s%s",DateUtils.getDataFormatString(new Date(),DateUtils.YYYYMMDDHHMMSS),random.nextInt(10000));
         Integer old = cacheOrder.get(orderNo);
         if(old!=null){
             orderNo = getOrderNo();
         }
         cacheOrder.put(orderNo,1);
-        lastDate = new Date();
         return orderNo;
     }
 
     public static boolean isTrue(Boolean flag){
         return flag!=null && flag;
     }
+
+    public static String getRealIp(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        logger.info("clientIp", ip);
+        return ip;
+    }
+
 }

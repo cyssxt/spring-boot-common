@@ -26,6 +26,8 @@ public class BaseReq extends Copy {
 //    @ApiModelProperty(value="需要登录",required = false)
 //    private boolean shouldLogin = false;
 
+    public BaseReq(){}
+
     public String getReqId() {
         return reqId==null? CommonUtils.generatorKey():reqId;
     }
@@ -49,6 +51,11 @@ public class BaseReq extends Copy {
 //    public void setShouldLogin(boolean shouldLogin) {
 //        this.shouldLogin = shouldLogin;
 //    }
+
+
+    public BaseReq(String sessionId) {
+        this.sessionId = sessionId;
+    }
 
     @Override
     public String toString() {
