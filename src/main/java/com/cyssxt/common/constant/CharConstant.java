@@ -6,5 +6,6 @@ public interface CharConstant {
     String UNDERLINE = "_";
     //分号
     String SEMICOLON = ";";
+    String COMMA = ",";
 
 }

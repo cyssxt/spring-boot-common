@@ -1,5 +1,6 @@
 package com.cyssxt.common.utils;
 
+import com.cyssxt.common.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,5 +143,9 @@ public class CommonUtils {
         cacheOrder.put(orderNo,1);
         lastDate = new Date();
         return orderNo;
+    }
+
+    public static boolean isTrue(Boolean flag){
+        return flag!=null && flag;
     }
 }

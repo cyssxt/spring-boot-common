@@ -97,5 +97,9 @@ public abstract class BaseEntity extends Copy implements Serializable {
         return value;
     }
 
+    public boolean isDel(){
+        return this.getDelFlag()!=null && this.getDelFlag();
+    }
+
 
 }

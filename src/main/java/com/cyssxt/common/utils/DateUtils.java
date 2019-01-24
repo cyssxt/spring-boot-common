@@ -16,6 +16,8 @@ public class DateUtils {
     public final static String YYYY_MM_DD = "yyyy-MM-dd";
     public final static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     public final static String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+    public final static String HH_MM = "HH:mm";
+    public static final String HHMM = "HHmm";
 
     public static Timestamp getCurrentTimestamp(){
         return new Timestamp(new Date().getTime());
