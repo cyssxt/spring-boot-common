@@ -21,38 +21,6 @@ public class RedisDao {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    public  void setKey(String key,String value){
-        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
-        ops.set(key,value);
-    }
-
-    public  void keySetWithExpireTime(String key,String value,int time){
-        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
-        ops.set(key,value,time, TimeUnit.SECONDS);
-        logger.debug("key={},value={}",key,value);
-    }
-    public  void keySetWithExpireTime(String key,String value,int time,TimeUnit unit){
-        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
-        ops.set(key,value,time, unit);
-        logger.debug("key={},value={}",key,value);
-    }
-
-    public  void keySetWithExpireTime(String key,String value){
-        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
-        ops.set(key,value,24*7, TimeUnit.HOURS);
-        logger.debug("key={},value={}",key,value);
-    }
-
-    public  <T> void objectSetWithExpireTime(String key, T t){
-        ValueOperations<String, T> ops = redisTemplate.opsForValue();
-        ops.set(key,t,24*7, TimeUnit.HOURS);
-        logger.debug("key={},value={}",key,t);
-    }
-
-    public Boolean delKey(String key){
-        return redisTemplate.delete(key);
-    }
-
     public  <T> void objectSetWithExpireTime(String key, T t, int time,TimeUnit unit){
         ValueOperations<String, T> ops = redisTemplate.opsForValue();
         ops.set(key,t,time,unit);
@@ -65,13 +33,22 @@ public class RedisDao {
         logger.debug("key={},value={}",key,t);
     }
 
+    public Boolean delKey(String key){
+        return redisTemplate.delete(key);
+    }
+
+
     public <T>T getObjectValue(String key){
         ValueOperations<String, T> ops = this.redisTemplate.opsForValue();
         T t = ops.get(key);
         return t;
     }
 
-    public void setStringValue(String key,String value,int timeout,TimeUnit timeUnit){
+    public  void stringSetWithExpireTime(String key,String value,int timeout,TimeUnit timeUnit){
+        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
+        ops.set(key,value,timeout,timeUnit);
+    }
+    public void stringSet(String key,String value,int timeout,TimeUnit timeUnit){
         ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
         ops.set(key,value,timeout,timeUnit);
     }
@@ -81,7 +58,7 @@ public class RedisDao {
         return ops.get(key);
     }
 
-    public <T>void sadd(String key,T t){
+    public <T>void sadd(String key,T ...t){
         SetOperations<String,T> ops = redisTemplate.opsForSet();
         ops.add(key,t);
     }
@@ -91,7 +68,7 @@ public class RedisDao {
         return ops.pop(key);
     }
 
-    public void saddStr(String key,String value){
+    public void saddStr(String key,String ...value){
         SetOperations<String,String> ops = this.stringRedisTemplate.opsForSet();
         ops.add(key,value);
     }
