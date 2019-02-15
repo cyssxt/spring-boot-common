@@ -27,7 +27,7 @@ public class Copy {
                 Method read = readMethods.get(key);
                 Object object = read.invoke(this);
                 Method writeMethod =writeMethods.get(key);
-                if((filter.valid(key,object) && writeMethod!=null)){
+                if((filter==null || filter.valid(key,object) && writeMethod!=null)){
                     logger.debug("parse,fieldName={}",key);
                     writeMethod.invoke(t,object);
                 }
