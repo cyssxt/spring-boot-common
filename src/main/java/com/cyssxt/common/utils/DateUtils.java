@@ -35,6 +35,24 @@ public class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
     }
+
+    public static Integer getDataFormatInteger(Date date,String format){
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String result = sdf.format(date);
+        Integer time = 0;
+        try{
+            time = Integer.valueOf(result);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return time;
+    }
+    public static Integer getDataFormatInteger(Calendar date,String format){
+        return getDataFormatInteger(date.getTime(),format);
+    }
+    public static Integer getDataFormatInteger(Calendar date){
+        return getDataFormatInteger(date.getTime(),DateUtils.YYYYMMDD);
+    }
     public static String format(Date timestamp,String format){
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(timestamp);
