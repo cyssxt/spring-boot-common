@@ -1,5 +1,6 @@
 package com.cyssxt.common.utils;
 
+import com.cyssxt.common.bean.ReflectBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.beans.IntrospectionException;
@@ -18,8 +19,8 @@ public class ReflectUtils {
     static Map<String,Map<String,Method>> targetWriter = new HashMap<>();
     static Map<Class,Map<String,Boolean>> fieldMap = new HashMap<>();
     static Map<Class,List<String>> excludeMap = new HashMap<>();
-    static final int READ = 0;//读方法
-    static final int WRITE = 1;//写方法
+    public static final int READ = 0;//读方法
+    public static final int WRITE = 1;//写方法
     public static Map<String,Method> getReadMapper(Class clazz) throws IntrospectionException {
        return getMap(clazz,READ);
     }
@@ -99,5 +100,36 @@ public class ReflectUtils {
 
     public static Map<String,Method> getWriteMap(Class clazz) throws IntrospectionException {
         return getMap(clazz,WRITE);
+    }
+
+    public static Map<String, ReflectBean> getBeanMap(Class clazz, int type, Boolean ignoreCase) {
+        Map<String, ReflectBean> result = new HashMap<>();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            String fieldName = field.getName();
+            Class dataType = field.getType();
+            if (dataType == Logger.class) {
+                continue;
+            }
+            PropertyDescriptor pd = null;
+            String keyName = ignoreCase ? fieldName.toLowerCase() : fieldName;
+            try {
+                pd = new PropertyDescriptor(fieldName, clazz);
+                Method method = type == READ ? pd.getReadMethod() : pd.getWriteMethod();
+                if (method == null) {
+                    continue;
+                }
+                Class fieldType = pd.getPropertyType();
+                result.put(keyName, new ReflectBean(fieldName, method,fieldType));
+            } catch (IntrospectionException e) {
+                logger.error("e={}", e);
+            }
+        }
+        Class supperClass = clazz.getSuperclass();
+        if (supperClass != null) {
+            Map<String, ReflectBean> parentMap = getBeanMap(supperClass, type, ignoreCase);
+            result.putAll(parentMap);
+        }
+        return result;
     }
 }

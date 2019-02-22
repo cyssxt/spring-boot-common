@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Created by 520cloud on 2017-09-05.
@@ -160,5 +161,9 @@ public class CommonUtils {
         return ip;
     }
 
+    public static boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
 
 }

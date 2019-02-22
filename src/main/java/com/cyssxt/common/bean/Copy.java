@@ -1,5 +1,6 @@
 package com.cyssxt.common.bean;
 
+import com.cyssxt.common.constant.ErrorMessage;
 import com.cyssxt.common.exception.ValidException;
 import com.cyssxt.common.utils.ReflectUtils;
 import org.slf4j.Logger;
@@ -22,8 +23,10 @@ public class Copy {
             readMethods = ReflectUtils.getReadMapper(this.getClass());
             writeMethods  = ReflectUtils.getWriteMap(t.getClass());
             Iterator<String> iterator = readMethods.keySet().iterator();
+            String lastKey = null;
             while (iterator.hasNext()){
                 String key = iterator.next();
+                lastKey = key;
                 Method read = readMethods.get(key);
                 Object object = read.invoke(this);
                 Method writeMethod =writeMethods.get(key);
@@ -33,7 +36,7 @@ public class Copy {
                 }
             }
         } catch (Exception e) {
-            throw new ValidException("");
+            throw new ValidException(ErrorMessage.PARSE_ERROR.getMessageInfo(),e);
         }
 
         return t;
