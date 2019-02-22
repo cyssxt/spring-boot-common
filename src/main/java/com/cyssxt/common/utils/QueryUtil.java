@@ -1,11 +1,10 @@
 package com.cyssxt.common.utils;
 
 import com.cyssxt.common.exception.ValidException;
-import com.cyssxt.common.hibernate.util.IgnoreCaseResultTransformer;
+import com.cyssxt.common.hibernate.transformer.IgnoreCaseResultTransformer;
 import com.cyssxt.common.request.BaseReq;
 import com.cyssxt.common.request.PageReq;
 import com.cyssxt.common.response.PageResponse;
-import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;

@@ -1,6 +1,7 @@
 package com.cyssxt.common.entity;
 
 import com.cyssxt.common.bean.Copy;
+import com.cyssxt.common.filters.JsonDecoderFilter;
 import com.cyssxt.common.utils.CommonUtils;
 import com.cyssxt.common.utils.DateUtils;
 import com.cyssxt.common.utils.ReflectUtils;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Created by zqy on 18/05/2018.
  */
-public abstract class BaseEntity extends Copy implements Serializable {
+public abstract class BaseEntity extends Copy implements Serializable, JsonDecoderFilter {
 
     public abstract void setCreateTime(Timestamp timestamp);
     public abstract void setUpdateTime(Timestamp timestamp);
@@ -65,10 +66,6 @@ public abstract class BaseEntity extends Copy implements Serializable {
 
     private final static Logger logger = LoggerFactory.getLogger(BaseEntity.class);
 
-    public Class loadBtoClass() {
-        return null;
-    }
-
     @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
@@ -95,6 +92,9 @@ public abstract class BaseEntity extends Copy implements Serializable {
         String value = stringBuffer.toString();
         logger.debug("{}toString,value={}",this.getClass().getName(),value);
         return value;
+    }
+    public Class loadBtoClass(){
+        return null;
     }
 
     public boolean isDel(){

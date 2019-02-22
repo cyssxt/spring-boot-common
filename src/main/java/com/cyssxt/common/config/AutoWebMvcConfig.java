@@ -12,6 +12,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.cyssxt.common.config.bean.AutoSortHashMap;
 import com.cyssxt.common.config.bean.FilterJSONSerializer;
 import com.cyssxt.common.entity.BaseEntity;
+import com.cyssxt.common.filters.JsonDecoderFilter;
 import com.cyssxt.common.utils.FilterUtils;
 import com.cyssxt.common.utils.ReflectUtils;
 import org.slf4j.Logger;
@@ -85,14 +86,14 @@ public class AutoWebMvcConfig{
             boolean includeFlag = true;
             boolean excludeFlag = false;
             boolean btoFlag = true;
-            if (o instanceof BaseEntity && ((BaseEntity) o).getIncludeFields() != null) {
-                includeFlag = ArrayUtils.contains(((BaseEntity) o).getIncludeFields(), s);
+            if (o instanceof JsonDecoderFilter && ((JsonDecoderFilter) o).getIncludeFields() != null) {
+                includeFlag = ArrayUtils.contains(((JsonDecoderFilter) o).getIncludeFields(), s);
             }
-            if (o instanceof BaseEntity && ((BaseEntity) o).getExcludeFields() != null) {
-                excludeFlag = ArrayUtils.contains(((BaseEntity) o).getExcludeFields(), s);
+            if (o instanceof JsonDecoderFilter && ((JsonDecoderFilter) o).getExcludeFields() != null) {
+                excludeFlag = ArrayUtils.contains(((JsonDecoderFilter) o).getExcludeFields(), s);
             }
-            if (o instanceof BaseEntity && ((BaseEntity) o).loadBtoClass() != null) {
-                btoFlag = ReflectUtils.hasField(((BaseEntity) o).loadBtoClass(), s);
+            if (o instanceof JsonDecoderFilter && ((JsonDecoderFilter) o).loadBtoClass() != null) {
+                btoFlag = ReflectUtils.hasField(((JsonDecoderFilter) o).loadBtoClass(), s);
             }
             if (o instanceof FilterJSONSerializer && ((FilterJSONSerializer) o).getExcludeFields() != null) {
                 excludeFlag = ArrayUtils.contains(((FilterJSONSerializer) o).getExcludeFields(), s);

@@ -1,26 +1,31 @@
-package com.cyssxt.common.hibernate.util;
+package com.cyssxt.common.hibernate.transformer;
 
 import com.cyssxt.common.bean.ReflectBean;
 import com.cyssxt.common.utils.CommonUtils;
 import com.cyssxt.common.utils.ReflectUtils;
+import lombok.Getter;
 import org.hibernate.HibernateException;
-import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class IgnoreCaseResultTransformer implements ResultTransformer {
+public class IgnoreCaseResultTransformer implements KeyTransformer {
     private static final long serialVersionUID = -3779317531110592988L;
     private final static Logger logger = LoggerFactory.getLogger(IgnoreCaseResultTransformer.class);
 
     private final Class<?> resultClass;
-
+    @Getter
+    private List<String> keys = new ArrayList<>();
+    private String keyName;
+    public IgnoreCaseResultTransformer(final Class<?> resultClass,String keyName) {
+        this.resultClass = resultClass;
+        this.keyName = keyName;
+    }
     public IgnoreCaseResultTransformer(final Class<?> resultClass) {
         this.resultClass = resultClass;
     }
@@ -35,15 +40,18 @@ public class IgnoreCaseResultTransformer implements ResultTransformer {
             result = this.resultClass.newInstance();
             Map<String, ReflectBean> reflectBeans = ReflectUtils.getBeanMap(resultClass,ReflectUtils.WRITE,true);
             for (int i=0;i<aliases.length;i++) {
+                Object object = tuple[i];
                 String alias = aliases[i];
-                alias = alias.replace("_","");
-                ReflectBean reflectBean = reflectBeans.get(alias.toLowerCase());
+                alias = alias.replace("_","").toLowerCase();
+                if(alias.equals(this.keyName)){
+                   keys.add(object+"");//主键转为string
+                }
+                ReflectBean reflectBean = reflectBeans.get(alias);
                 if(reflectBean==null){
                     logger.error("reflectBean is null={}",alias);
                     continue;
                 }
                 Class type = reflectBean.getFieldType();
-                Object object = tuple[i];
                 if(object!=null) {
                     String obj = object+"";
                     if (type.equals(Boolean.class) || type.equals(boolean.class)) {

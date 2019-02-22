@@ -1,6 +1,6 @@
 package com.cyssxt.common.utils;
 
-import com.cyssxt.common.hibernate.util.IgnoreCaseResultTransformer;
+import com.cyssxt.common.hibernate.transformer.IgnoreCaseResultTransformer;
 import com.cyssxt.common.request.BaseReq;
 import com.cyssxt.common.request.PageReq;
 import com.cyssxt.common.response.PageResponse;
