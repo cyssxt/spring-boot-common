@@ -61,6 +61,9 @@ public class QueryUtil {
     public  static <T> List<T> applyNativeListWithIct(String sql, PageReq req,EntityManager entityManager, PageParameter parameter, Class alias) throws ValidException {
         return applyNativeList(sql,req,entityManager,parameter,new IgnoreCaseResultTransformer(alias));
     }
+    public  static <T> List<T> applyNativeListWithIct(String sql,EntityManager entityManager, Class alias) throws ValidException {
+        return applyNativeList(sql,null,entityManager,null,new IgnoreCaseResultTransformer(alias));
+    }
 
     public  static <T> List<T> applyNativeList(String sql, PageReq req,EntityManager entityManager, PageParameter parameter, Class alias) throws ValidException {
         return applyNativeList(sql,req,entityManager,parameter,Transformers.aliasToBean(alias));
@@ -68,7 +71,9 @@ public class QueryUtil {
 
     public  static <T> List<T> applyNativeList(String sql, BaseReq req, EntityManager entityManager, ReqParameter parameter, ResultTransformer transformer) throws ValidException {
         Query query = entityManager.createNativeQuery(sql);
-        parameter.initParam(query,req);
+        if(parameter!=null && req!=null) {
+            parameter.initParam(query, req);
+        }
         query.unwrap(NativeQueryImpl.class).setResultTransformer(transformer);
         List<T> list = query.getResultList();
         return list;
