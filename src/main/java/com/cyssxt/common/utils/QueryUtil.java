@@ -14,14 +14,13 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class QueryUtil {
-    public static interface ReqParameter<T extends BaseReq>{
+    public interface ReqParameter<T extends BaseReq>{
         void initParam(Query query, T t) throws ValidException;
     }
 
-    public static interface PageParameter<T extends PageReq> extends ReqParameter<T>{
+    public interface PageParameter<T extends PageReq> extends ReqParameter<T>{
         void initParam(Query query,T t) throws ValidException;
     }
-
     public  static <T> PageResponse<T> applyNativePage(String sql, EntityManager entityManager, PageReq pageReq, PageParameter parameter, ResultTransformer transformer) throws ValidException {
         Query query = entityManager.createNativeQuery(sql);
         parameter.initParam(query,pageReq);
