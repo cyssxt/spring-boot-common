@@ -53,6 +53,10 @@ public class DateUtils {
     public static Integer getDataFormatInteger(Calendar date){
         return getDataFormatInteger(date.getTime(),DateUtils.YYYYMMDD);
     }
+
+    public static Integer getCurrentDataFormatInteger(){
+        return getDataFormatInteger(new Date(),DateUtils.YYYYMMDD);
+    }
     public static String format(Date timestamp,String format){
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(timestamp);
