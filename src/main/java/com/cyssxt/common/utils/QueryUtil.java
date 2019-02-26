@@ -72,6 +72,10 @@ public class QueryUtil {
         return applyNativeList(sql,req,entityManager,parameter,Transformers.aliasToBean(alias));
     }
 
+    public  static <T> List<T> applyNativeList(String sql,EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
+        return applyNativeList(sql,null,entityManager,parameter,Transformers.aliasToBean(alias));
+    }
+
     public  static <T> List<T> applyNativeList(String sql, BaseReq req, EntityManager entityManager, ReqParameter parameter, ResultTransformer transformer) throws ValidException {
         Query query = entityManager.createNativeQuery(sql);
         if(parameter!=null) {
