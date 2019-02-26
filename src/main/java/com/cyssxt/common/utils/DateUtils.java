@@ -20,6 +20,7 @@ public class DateUtils {
     public final static String HH_MM = "HH:mm";
     public static final String HHMM = "HHmm";
     public static final String YYYYMM = "yyyyMM";
+    public static final String MM = "MM";
 
     public static Timestamp getCurrentTimestamp(){
         return new Timestamp(new Date().getTime());
@@ -52,6 +53,9 @@ public class DateUtils {
     }
     public static Integer getDataFormatInteger(Calendar date){
         return getDataFormatInteger(date.getTime(),DateUtils.YYYYMMDD);
+    }
+    public static Integer getDataFormatInteger(Date date){
+        return getDataFormatInteger(date,DateUtils.YYYYMMDD);
     }
 
     public static Integer getCurrentDataFormatInteger(){
