@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by zqy on 18/05/2018.
@@ -32,8 +33,12 @@ public class DateUtils {
         return new Timestamp(calendar.getTime().getTime());
     }
 
+    public static String getDataFormatString(Date date,String format,Locale locale){
+        SimpleDateFormat sdf = new SimpleDateFormat(format,locale);
+        return sdf.format(date);
+    }
     public static String getDataFormatString(Date date,String format){
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        SimpleDateFormat sdf = new SimpleDateFormat(format,Locale.SIMPLIFIED_CHINESE);
         return sdf.format(date);
     }
 
