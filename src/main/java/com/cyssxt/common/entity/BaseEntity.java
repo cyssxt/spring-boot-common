@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Created by zqy on 18/05/2018.
  */
-public abstract class BaseEntity extends Copy implements Serializable, JsonDecoderFilter {
+public abstract class BaseEntity extends Copy implements Cloneable ,Serializable, JsonDecoderFilter {
 
     public abstract void setCreateTime(Timestamp timestamp);
     public abstract void setUpdateTime(Timestamp timestamp);
@@ -100,6 +100,14 @@ public abstract class BaseEntity extends Copy implements Serializable, JsonDecod
     public boolean isDel(){
         return this.getDelFlag()!=null && this.getDelFlag();
     }
-
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }
