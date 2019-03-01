@@ -1,7 +1,7 @@
 package com.cyssxt.common.utils;
 
 import com.cyssxt.common.constant.ErrorMessage;
-import com.cyssxt.common.dao.BaseRepository;
+import com.cyssxt.common.dao.CommonRepository;
 import com.cyssxt.common.entity.BaseEntity;
 import com.cyssxt.common.exception.ValidException;
 import org.springframework.util.StringUtils;
@@ -19,11 +19,11 @@ public class JpaUtil {
      * @return
      * @throws ValidException
      */
-    public static <T extends BaseEntity> T check(String id, BaseRepository repository) throws ValidException {
+    public static <T extends BaseEntity> T check(Object id, CommonRepository repository) throws ValidException {
         return check(id,repository,true);
     }
 
-    public static <T extends BaseEntity> T check(String id, BaseRepository repository, boolean throwException) throws ValidException {
+    public static <T extends BaseEntity> T check(Object id, CommonRepository repository, boolean throwException) throws ValidException {
         if(StringUtils.isEmpty(id)){
             throw new ValidException(ErrorMessage.ID_NOT_NULL.getMessageInfo());
         }

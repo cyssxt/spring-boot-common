@@ -9,7 +9,7 @@ import org.springframework.data.repository.NoRepositoryBean;
  * Created by zqy on 12/05/2018.
  */
 @NoRepositoryBean
-public interface BaseRepository<T> extends CrudRepository<T,String>,JpaSpecificationExecutor<T> {
+public interface BaseRepository<T> extends CommonRepository<T,String> {
 
 }
 

@@ -1,6 +1,9 @@
 package com.cyssxt.common.utils;
 
 
+import com.cyssxt.common.constant.ErrorMessage;
+import com.cyssxt.common.exception.ValidException;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,9 +73,13 @@ public class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(timestamp);
     }
-    public static Date strToDate(String date,String format) throws ParseException {
+    public static Date strToDate(String date,String format) throws ValidException {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.parse(date);
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            throw new ValidException(ErrorMessage.DATE_PARSE_ERROR.getMessageInfo());
+        }
     }
     public static Timestamp dateToTimestamp(Date date){
         return new Timestamp(date.getTime());
