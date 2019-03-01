@@ -2,7 +2,9 @@ package com.cyssxt.common.constant;
 
 public enum SessionTypeConstant {
     SMS((byte)0,"发送验证码"),
-    LOGIN((byte)1,"登陆");
+    LOGIN((byte)1,"登陆"),
+    GUEST((byte)-1,"GUEST"),
+    ;
     private Byte value;
     private String msg;
 

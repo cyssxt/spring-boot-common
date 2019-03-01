@@ -7,5 +7,6 @@ public interface CharConstant {
     //分号
     String SEMICOLON = ";";
     String COMMA = ",";
+    String OR = "|";
 
 }

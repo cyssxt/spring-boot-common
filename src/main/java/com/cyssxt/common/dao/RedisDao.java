@@ -52,7 +52,10 @@ public class RedisDao {
         ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
         ops.set(key,value,timeout,timeUnit);
     }
-
+    public void stringSet(String key,String value){
+        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
+        ops.set(key,value);
+    }
     public String getStringValue(String key){
         ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
         return ops.get(key);
