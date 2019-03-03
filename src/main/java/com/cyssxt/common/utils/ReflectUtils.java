@@ -145,7 +145,7 @@ public class ReflectUtils {
             String obj = object + "";
             if (!StringUtils.isEmpty(obj.trim())) {
                 if (type.equals(Boolean.class) || type.equals(boolean.class)) {
-                    param = "1".equals(obj) ? true : Boolean.valueOf(obj);
+                    param = "1".equals(obj) ? true : "true".equals(obj)?true:Boolean.valueOf(obj);
                 } else if (type.equals(Integer.class) || type.equals(int.class)) {
                     param = Integer.valueOf(obj);
                 } else if (type.equals(Double.class) || type.equals(double.class)) {
