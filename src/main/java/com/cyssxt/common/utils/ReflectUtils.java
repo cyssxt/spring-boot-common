@@ -167,7 +167,13 @@ public class ReflectUtils {
                         param = Timestamp.valueOf(obj);
                     }
                 } else if (type.equals(Byte.class) || type.equals(byte.class)) {
-                    param = Byte.valueOf(obj);
+                    if("false".equals(obj)){
+                        param=(byte)0;
+                    }else if("true".equals(obj)){
+                        param=(byte)1;
+                    }else {
+                        param = Byte.valueOf(obj);
+                    }
                 } if(type.equals(String.class)){
                     param = obj;
                 }
