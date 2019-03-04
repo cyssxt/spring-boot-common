@@ -1,18 +1,13 @@
 package com.cyssxt.common.hibernate.transformer;
 
 import com.cyssxt.common.bean.ReflectBean;
-import com.cyssxt.common.utils.CommonUtils;
 import com.cyssxt.common.utils.ReflectUtils;
 import lombok.Getter;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Method;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +19,15 @@ public class IgnoreCaseResultTransformer implements KeyTransformer {
     private final Class<?> resultClass;
     @Getter
     private List<String> keys = new ArrayList<>();
+    private Filter filter;
     private String keyName;
     public IgnoreCaseResultTransformer(final Class<?> resultClass,String keyName) {
         this.resultClass = resultClass;
         this.keyName = keyName;
+    }
+    public IgnoreCaseResultTransformer(final Class<?> resultClass, Filter filter) {
+        this.resultClass = resultClass;
+        this.filter = filter;
     }
     public IgnoreCaseResultTransformer(final Class<?> resultClass) {
         this.resultClass = resultClass;
@@ -59,6 +59,9 @@ public class IgnoreCaseResultTransformer implements KeyTransformer {
                 if(object!=null) {
                     ReflectUtils.copyValue(reflectBean, object, result);
                 }
+            }
+            if(filter!=null){
+                filter.callback(result);
             }
         } catch (Exception e) {
             throw new HibernateException("Could not instantiate resultclass: " + this.resultClass.getName()+",lastKey="+lastKey, e);
