@@ -35,7 +35,7 @@ public class JpaUtil {
             return null;
         }
         T entity = optional.get();
-        return check(entity);
+        return check(entity,throwException);
     }
 
     public static <T extends BaseEntity> T check(T entity,boolean checkDelete,String messageCode) throws ValidException {

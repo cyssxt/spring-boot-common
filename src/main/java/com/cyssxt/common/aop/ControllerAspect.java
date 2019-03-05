@@ -96,7 +96,7 @@ public class ControllerAspect {
                 }
             }
         }
-        ValidRepeat validRepeat = method.getAnnotation(ValidRepeat.class);d
+        ValidRepeat validRepeat = method.getAnnotation(ValidRepeat.class);
         if (validRepeat != null) {
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
