@@ -51,6 +51,7 @@ public class ControllerAspect {
         String sessionId = null;
         BaseReq req = null;
         HttpServletRequest request = null;
+        logger.info("controller={},requestParams={}",objects);
         for (int i = 0; i < objects.length; i++) {
             Object object = objects[i];
             //测试用例中，bindResult有可能传入为空
@@ -95,7 +96,7 @@ public class ControllerAspect {
                 }
             }
         }
-        ValidRepeat validRepeat = method.getAnnotation(ValidRepeat.class);
+        ValidRepeat validRepeat = method.getAnnotation(ValidRepeat.class);d
         if (validRepeat != null) {
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
