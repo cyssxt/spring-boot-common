@@ -1,6 +1,7 @@
 package com.cyssxt.common.bean;
 
 import com.cyssxt.common.constant.ErrorMessage;
+import com.cyssxt.common.entity.BaseEntity;
 import com.cyssxt.common.exception.ValidException;
 import com.cyssxt.common.utils.ReflectUtils;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class Copy {
                 Method read = readMethods.get(key);
                 Object object = read.invoke(this);
                 Method writeMethod =writeMethods.get(key);
-                if((filter==null || filter.valid(key,object) && writeMethod!=null)){
+                if((filter==null || filter.valid(key,object)) && writeMethod!=null){
                     logger.debug("parse,fieldName={}",key);
                     writeMethod.invoke(t,object);
                 }
@@ -45,4 +46,5 @@ public class Copy {
     public interface Filter {
         boolean valid(String key,Object o);
     }
+
 }
