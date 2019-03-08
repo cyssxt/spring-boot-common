@@ -52,7 +52,6 @@ public class ControllerAspect {
         String sessionId = null;
         BaseReq req = null;
         HttpServletRequest request = null;
-        logger.info("controller={},requestParams={}", JSON.toJSONString(objects));
         for (int i = 0; i < objects.length; i++) {
             Object object = objects[i];
             //测试用例中，bindResult有可能传入为空
@@ -60,6 +59,7 @@ public class ControllerAspect {
                 continue;
             }
             if (BaseReq.class.isAssignableFrom(object.getClass())) {
+                logger.info("controller={},requestParams={}", JSON.toJSONString(object));
                 req = (BaseReq) object;
                 reqId = req.getReqId();
                 sessionId = req.getSessionId();
