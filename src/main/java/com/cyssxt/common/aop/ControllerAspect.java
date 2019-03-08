@@ -1,5 +1,6 @@
 package com.cyssxt.common.aop;
 
+import com.alibaba.fastjson.JSON;
 import com.cyssxt.common.annotation.Authorization;
 import com.cyssxt.common.annotation.ValidRepeat;
 import com.cyssxt.common.constant.ErrorMessage;
@@ -51,7 +52,7 @@ public class ControllerAspect {
         String sessionId = null;
         BaseReq req = null;
         HttpServletRequest request = null;
-        logger.info("controller={},requestParams={}",objects);
+        logger.info("controller={},requestParams={}", JSON.toJSONString(objects));
         for (int i = 0; i < objects.length; i++) {
             Object object = objects[i];
             //测试用例中，bindResult有可能传入为空
