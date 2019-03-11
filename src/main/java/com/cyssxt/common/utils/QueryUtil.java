@@ -8,6 +8,7 @@ import com.cyssxt.common.response.PageResponse;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -102,7 +103,10 @@ public class QueryUtil {
         return list;
     }
 
-
+    public  static <T> T applyFirst(String sql,EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
+        List<T> t =  applyNativeList(sql,entityManager,parameter,new IgnoreCaseResultTransformer(alias));
+        return CollectionUtils.isEmpty(t)?null:t.get(0);
+    }
 
     public static String like(String value){
         return String.format("%%%s%%",value);
