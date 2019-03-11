@@ -43,7 +43,6 @@ public class QueryUtil {
         if(reqParameter!=null){
             reqParameter.initParam(totalQuery,req);
         }
-        reqParameter.initParam(totalQuery,req);
         Number totalNumber = (Number)totalQuery.getSingleResult();
         long totalCount = totalNumber.longValue();
         return totalCount;
