@@ -49,8 +49,8 @@ public class QueryUtil {
         return totalCount;
 
     }
-    public  static Long applyTotal(String sql, EntityManager entityManager){
-        return applyTotal(sql,entityManager);
+    public  static Long applyTotal(String sql, EntityManager entityManager) throws ValidException {
+        return applyTotal(sql,entityManager,null,null);
     }
 
     public  static <T> PageResponse<T> applyNativePage(String sql, EntityManager entityManager, PageReq pageReq, PageParameter parameter, Class alias) throws ValidException {
