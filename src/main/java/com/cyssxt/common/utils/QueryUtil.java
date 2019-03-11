@@ -38,6 +38,21 @@ public class QueryUtil {
         return pageResponse;
     }
 
+    public  static Long applyTotal(String sql, EntityManager entityManager,BaseReq req,ReqParameter reqParameter) throws ValidException {
+        Query totalQuery = entityManager.createNativeQuery(String.format("select count(1) countBean from (%s) A",sql));
+        if(reqParameter!=null){
+            reqParameter.initParam(totalQuery,req);
+        }
+        reqParameter.initParam(totalQuery,req);
+        Number totalNumber = (Number)totalQuery.getSingleResult();
+        long totalCount = totalNumber.longValue();
+        return totalCount;
+
+    }
+    public  static Long applyTotal(String sql, EntityManager entityManager){
+        return applyTotal(sql,entityManager);
+    }
+
     public  static <T> PageResponse<T> applyNativePage(String sql, EntityManager entityManager, PageReq pageReq, PageParameter parameter, Class alias) throws ValidException {
         return applyNativePage(sql,entityManager,pageReq,parameter, Transformers.aliasToBean(alias));
     }
@@ -75,7 +90,9 @@ public class QueryUtil {
     public  static <T> List<T> applyNativeList(String sql,EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
         return applyNativeList(sql,null,entityManager,parameter,Transformers.aliasToBean(alias));
     }
-
+    public  static <T> List<T> applyNativeList(String sql, EntityManager entityManager, ReqParameter parameter, ResultTransformer transformer) throws ValidException {
+        return applyNativeList(sql,null,entityManager,parameter,transformer);
+    }
     public  static <T> List<T> applyNativeList(String sql, BaseReq req, EntityManager entityManager, ReqParameter parameter, ResultTransformer transformer) throws ValidException {
         Query query = entityManager.createNativeQuery(sql);
         if(parameter!=null) {

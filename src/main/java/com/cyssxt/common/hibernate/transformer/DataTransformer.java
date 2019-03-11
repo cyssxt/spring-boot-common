@@ -42,7 +42,9 @@ public class DataTransformer extends IgnoreCaseResultTransformer {
                 }
                 ReflectUtils.copyValue(reflectBean,object,result);
             }
-            filter.callback(result);
+            if(result!=null) {
+                filter.callback(result);
+            }
         } catch (Exception e) {
             throw new HibernateException(lastKey+"=lastKey,Could not instantiate resultclass: " + this.getResultClass().getName(), e);
         }
@@ -54,7 +56,7 @@ public class DataTransformer extends IgnoreCaseResultTransformer {
         return collection;
     }
 
-    public interface Filter {
-        void callback(Object result);
+    public interface Filter<T> {
+        void callback(T result);
     }
 }
