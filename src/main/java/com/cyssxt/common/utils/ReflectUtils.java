@@ -184,7 +184,7 @@ public class ReflectUtils {
                     param = null;
                 }
             }
-            logger.info("param={},{}", param, type);
+//            logger.info("param={},{}", param, type);
             Method method = reflectBean.getMethod();
             method.invoke(result, param);
         }
