@@ -111,10 +111,13 @@ public class AutoWebMvcConfig{
         List<MediaType> fastMediaTypes = new ArrayList<>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
         ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
-        ParserConfig.getGlobalInstance().putDeserializer(Timestamp.class, new SqlDateDeserializer(true) {
+        ParserConfig.getGlobalInstance().putDeserializer(Timestamp.class, new SqlDateDeserializer(true){
             @Override
-            public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName) {
-                return super.deserialze(parser, clazz, fieldName);
+            protected <T> T cast(DefaultJSONParser parser, Type clazz, Object fieldName, Object val) {
+                if("0".equals(val+"")){
+                    return null;
+                }
+                return super.cast(parser, clazz, fieldName, val);
             }
         });
         //4.在convert中添加配置信息.
