@@ -85,8 +85,9 @@ public class DateUtils {
     public static Timestamp getStartTimeOfDay(Date date){
         Calendar start = Calendar.getInstance();
         start.setTime(date);
-        start.set(Calendar.HOUR,0);
+        start.set(Calendar.HOUR_OF_DAY,0);
         start.set(Calendar.MILLISECOND,0);
+        start.set(Calendar.MINUTE,0);
         start.set(Calendar.SECOND,0);
         start.set(Calendar.MILLISECOND,0);
         return new Timestamp(start.getTimeInMillis());
@@ -94,9 +95,10 @@ public class DateUtils {
     public static Timestamp getEndTimeOfDay(Date date){
         Calendar start = Calendar.getInstance();
         start.setTime(date);
-        start.set(Calendar.HOUR,23);
+        start.set(Calendar.HOUR_OF_DAY,23);
         start.set(Calendar.MILLISECOND,59);
         start.set(Calendar.SECOND,59);
+        start.set(Calendar.MINUTE,59);
         start.set(Calendar.MILLISECOND,0);
         return new Timestamp(start.getTimeInMillis());
     }
@@ -106,5 +108,9 @@ public class DateUtils {
 
     public static String getCurrentDateFormatStr(String format){
         return getDataFormatString(new Date(), format);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getEndTimeOfDay(snew Date()));
     }
 }
