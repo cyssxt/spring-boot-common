@@ -81,6 +81,25 @@ public class DateUtils {
             throw new ValidException(ErrorMessage.DATE_PARSE_ERROR.getMessageInfo());
         }
     }
+
+    public static Timestamp getStartTimeOfDay(Date date){
+        Calendar start = Calendar.getInstance();
+        start.setTime(date);
+        start.set(Calendar.HOUR,0);
+        start.set(Calendar.MILLISECOND,0);
+        start.set(Calendar.SECOND,0);
+        start.set(Calendar.MILLISECOND,0);
+        return new Timestamp(start.getTimeInMillis());
+    }
+    public static Timestamp getEndTimeOfDay(Date date){
+        Calendar start = Calendar.getInstance();
+        start.setTime(date);
+        start.set(Calendar.HOUR,23);
+        start.set(Calendar.MILLISECOND,59);
+        start.set(Calendar.SECOND,59);
+        start.set(Calendar.MILLISECOND,0);
+        return new Timestamp(start.getTimeInMillis());
+    }
     public static Timestamp dateToTimestamp(Date date){
         return new Timestamp(date.getTime());
     }
