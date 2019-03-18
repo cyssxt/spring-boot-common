@@ -1,10 +1,10 @@
 package com.cyssxt.common.hibernate.transformer;
 
-import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.TupleSubsetResultTransformer;
 
 import java.util.List;
 
-public interface KeyTransformer extends ResultTransformer {
+public interface KeyTransformer extends TupleSubsetResultTransformer {
 
     List<String> getKeys();
 }

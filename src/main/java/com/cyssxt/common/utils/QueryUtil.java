@@ -5,7 +5,9 @@ import com.cyssxt.common.hibernate.transformer.IgnoreCaseResultTransformer;
 import com.cyssxt.common.request.BaseReq;
 import com.cyssxt.common.request.PageReq;
 import com.cyssxt.common.response.PageResponse;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
+import org.hibernate.query.spi.NativeQueryImplementor;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.springframework.util.CollectionUtils;
@@ -86,7 +88,9 @@ public class QueryUtil {
     public  static <T> List<T> applyNativeList(String sql, PageReq req,EntityManager entityManager, PageParameter parameter, Class alias) throws ValidException {
         return applyNativeList(sql,req,entityManager,parameter,Transformers.aliasToBean(alias));
     }
-
+    public  static <T> List<T> applyNativeList(String sql, EntityManager entityManager,  Class alias) throws ValidException {
+        return applyNativeList(sql,null,entityManager,null,Transformers.aliasToBean(alias));
+    }
     public  static <T> List<T> applyNativeList(String sql,EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
         return applyNativeList(sql,null,entityManager,parameter,Transformers.aliasToBean(alias));
     }
@@ -98,7 +102,8 @@ public class QueryUtil {
         if(parameter!=null) {
             parameter.initParam(query, req);
         }
-        query.unwrap(NativeQueryImpl.class).setResultTransformer(transformer);
+        NativeQueryImplementor nativeQueryImplementor = query.unwrap(NativeQueryImpl.class);
+        nativeQueryImplementor.setResultTransformer(transformer);
         List<T> list = query.getResultList();
         return list;
     }
