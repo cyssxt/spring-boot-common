@@ -139,7 +139,7 @@ public class ReflectUtils {
 
     public static void copyValue(ReflectBean reflectBean, Object object, Object result) throws InvocationTargetException, IllegalAccessException {
         Class type = reflectBean.getFieldType();
-        logger.info("copyValue,key={}", object + "");
+//        logger.info("copyValue,key={}", object + "");
         Object param = object;
         if (object != null) {
             String obj = object + "";
