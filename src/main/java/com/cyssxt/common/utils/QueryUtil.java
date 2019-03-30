@@ -113,6 +113,11 @@ public class QueryUtil {
         return CollectionUtils.isEmpty(t)?null:t.get(0);
     }
 
+    public  static <T> T applyFirst(String sql,EntityManager entityManager, ReqParameter parameter, ResultTransformer resultTransformer) throws ValidException {
+        List<T> t =  applyNativeList(sql,entityManager,parameter,resultTransformer);
+        return CollectionUtils.isEmpty(t)?null:t.get(0);
+    }
+
     public static String like(String value){
         return String.format("%%%s%%",value);
     }
