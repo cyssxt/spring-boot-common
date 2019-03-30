@@ -81,17 +81,21 @@ public class FileUtil {
         return afterDecode;
     }
 
-    public static String getContent(String fileName) throws IOException {
+    public static String getContent(String fileName) throws ValidException {
         String filePath = String.format("classpath:sql/%s.sql",fileName);
         InputStream is = FileUtil.class.getClassLoader().getResourceAsStream(filePath);
-        if(is==null){
-            File file = ResourceUtils.getFile(filePath);
-            is = new FileInputStream(file);
+        try {
+            if (is == null) {
+                File file = ResourceUtils.getFile(filePath);
+                is = new FileInputStream(file);
+            }
+            InputStreamReader inputStreamReader = new InputStreamReader(is);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            StringBuffer stringBuffer = FileUtil.getFileContent(bufferedReader);
+            return stringBuffer.toString();
+        }catch (Exception e){
+            throw new ValidException(ErrorMessage.IO_EXCEPTION.getMessageInfo());
         }
-        InputStreamReader inputStreamReader = new InputStreamReader(is);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        StringBuffer stringBuffer = FileUtil.getFileContent(bufferedReader);
-        return stringBuffer.toString();
     }
 
     public static StringBuffer getFileContent(BufferedReader bufferedReader) throws IOException {
