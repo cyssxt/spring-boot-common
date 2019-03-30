@@ -6,6 +6,7 @@ import com.cyssxt.common.constant.ErrorMessage;
 import com.cyssxt.common.exception.ValidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
@@ -78,5 +79,28 @@ public class FileUtil {
         // 使用转义字符 /,对oracle特殊字符_ 进行转义,只作为普通查询字符，不是模糊匹配
         afterDecode = afterDecode.replaceAll("_", "/_");
         return afterDecode;
+    }
+
+    public static String getContent(String fileName) throws IOException {
+        String filePath = String.format("classpath:sql/%s.sql",fileName);
+        InputStream is = FileUtil.class.getClassLoader().getResourceAsStream(filePath);
+        if(is==null){
+            File file = ResourceUtils.getFile(filePath);
+            is = new FileInputStream(file);
+        }
+        InputStreamReader inputStreamReader = new InputStreamReader(is);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        StringBuffer stringBuffer = FileUtil.getFileContent(bufferedReader);
+        return stringBuffer.toString();
+    }
+
+    public static StringBuffer getFileContent(BufferedReader bufferedReader) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            sb.append(line);
+        }
+        bufferedReader.close();
+        return sb;
     }
 }
