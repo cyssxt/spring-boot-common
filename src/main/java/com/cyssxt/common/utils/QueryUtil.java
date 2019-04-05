@@ -59,6 +59,11 @@ public class QueryUtil {
         return applyNativePage(sql,entityManager,pageReq,parameter, Transformers.aliasToBean(alias));
     }
 
+    public  static <T> PageResponse<T> applyNativePageByFile(String fileName,EntityManager entityManager,PageParameter reqParameter,Class alias) throws ValidException {
+        String sql = FileUtil.getContent(fileName);
+        return applyNativePage(sql,entityManager,null,reqParameter,alias);
+    }
+
 
     /**
      * 忽略大小写和_转换器
@@ -74,6 +79,11 @@ public class QueryUtil {
         return applyNativePage(sql,entityManager,pageReq,parameter,new IgnoreCaseResultTransformer(alias));
     }
 
+    public  static <T> PageResponse<T> applyNativePageWithIctByFile(String fileName, EntityManager entityManager, PageReq pageReq, PageParameter parameter, ResultTransformer resultTransformer) throws ValidException {
+        String sql = FileUtil.getContent(fileName);
+        return applyNativePage(sql,entityManager,pageReq,parameter,resultTransformer);
+    }
+
     public  static <T> List<T> applyNativeListWithIct(String sql, PageReq req,EntityManager entityManager, PageParameter parameter, Class alias) throws ValidException {
         return applyNativeList(sql,req,entityManager,parameter,new IgnoreCaseResultTransformer(alias));
     }
@@ -83,6 +93,15 @@ public class QueryUtil {
 
     public  static <T> List<T> applyNativeListWithIct(String sql, EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
         return applyNativeList(sql,null,entityManager,parameter,new IgnoreCaseResultTransformer(alias));
+    }
+
+    public  static <T> List<T> applyNativeListWithIctByFile(String fileName, EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
+        String sql = FileUtil.getContent(fileName);
+        return applyNativeList(sql,null,entityManager,parameter,new IgnoreCaseResultTransformer(alias));
+    }
+    public  static <T> List<T> applyNativeListWithIctByFile(String fileName, EntityManager entityManager, Class alias) throws ValidException {
+        String sql = FileUtil.getContent(fileName);
+        return applyNativeList(sql,null,entityManager,null,new IgnoreCaseResultTransformer(alias));
     }
 
     public  static <T> List<T> applyNativeList(String sql, PageReq req,EntityManager entityManager, PageParameter parameter, Class alias) throws ValidException {
@@ -109,6 +128,12 @@ public class QueryUtil {
     }
 
     public  static <T> T applyFirst(String sql,EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
+        List<T> t =  applyNativeList(sql,entityManager,parameter,new IgnoreCaseResultTransformer(alias));
+        return CollectionUtils.isEmpty(t)?null:t.get(0);
+    }
+
+    public  static <T> T applyFirstByFile(String fileName,EntityManager entityManager, ReqParameter parameter, Class alias) throws ValidException {
+        String sql = FileUtil.getContent(fileName);
         List<T> t =  applyNativeList(sql,entityManager,parameter,new IgnoreCaseResultTransformer(alias));
         return CollectionUtils.isEmpty(t)?null:t.get(0);
     }
