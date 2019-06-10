@@ -40,6 +40,11 @@
 existSession校验入参是否校验sessionId
 ### UserLoginListener  用户登陆校验需要override
 
+### 实体基础类
+<pre><code>
+    CommonEntity 是实体类基础类，包含row_id ,del_flag,create_time,update_time4个基础字段
+</code></pre>
+
 
 
     
