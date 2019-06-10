@@ -55,6 +55,49 @@ public interface Filter {
 }
 </code></pre>
 
+### 工具类
+#### 1.DateUtils
+<pre><code>
+public final static String YYYYMMDD = "yyyyMMdd";
+public final static String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+public final static String YYYY_MM_DD = "yyyy-MM-dd";
+public final static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+public final static String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+public final static String HH_MM = "HH:mm";
+public static final String HHMM = "HHmm";
+public static final String YYYYMM = "yyyyMM";
+public static final String MM = "MM";
+//获取当前时间
+public static Timestamp getCurrentTimestamp()
+//向后退小时数
+public static Timestamp getCurrentTimestampBeforeHour(int hour);
+//获取时间格式化
+public static String getDataFormatString(Date date,String format,Locale locale)
+//获取时间格式化
+public static String getDataFormatString(Date date,String format);
+//获取时间整型值
+public static Integer getDataFormatInteger(Date date,String format);
+//获取时间整型值
+public static Integer getDataFormatInteger(Calendar date,String format);
+//获取时间整型值
+public static Integer getDataFormatInteger(Calendar date);
+//同上
+public static Integer getDataFormatInteger(Date date);
+public static Integer getCurrentDataFormatInteger();
+//格式化时间
+public static String format(Date timestamp,String format);
+//字符串转时间
+public static Date strToDate(String date,String format) throws ValidException ;
+//获取一天的开始时间
+public static Timestamp getStartTimeOfDay(Date date);
+//获取一天结束时间
+public static Timestamp getEndTimeOfDay(Date date);
+//Date转Timestamp
+public static Timestamp dateToTimestamp(Date date);
+//获取当前的时间格式
+public static String getCurrentDateFormatStr(String format);
+</code></pre>
+
 
     
 
