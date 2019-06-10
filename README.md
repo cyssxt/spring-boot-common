@@ -45,6 +45,15 @@ existSession校验入参是否校验sessionId
     CommonEntity 是实体类基础类，包含row_id ,del_flag,create_time,update_time4个基础字段
 </code></pre>
 
+### Copy类介绍
+<pre><code>
+//可以直接拷贝当前实例 到T对象中
+public <T>T parse(T t,Filter filter);
+//如果valid返回false则表示不拷贝，o是当前实例对象 key是字段名
+public interface Filter {
+    boolean valid(String key,Object o);
+}
+</code></pre>
 
 
     
