@@ -1,10 +1,9 @@
 package com.cyssxt.common.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+@MappedSuperclass
 public class CommonEntity extends BaseEntity {
 
     String rowId;
