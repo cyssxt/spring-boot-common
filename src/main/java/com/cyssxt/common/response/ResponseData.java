@@ -96,6 +96,10 @@ public class ResponseData<T> {
         this.setRetMsg(messageInfo.getRetMsg());
     }
 
+    public void addError(String msg){
+        errors.add(msg);
+    }
+
     public void appendRetMsg(String msg){
         this.retMsg=this.retMsg+msg;
     }
