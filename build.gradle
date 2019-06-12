@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'com.cyssxt.jpamodelgen'
+//apply plugin: 'com.cyssxt.jpamodelgen'
 //apply plugin: 'io.spring.dependency-management'
 def springBootVersion = '2.1.1.RELEASE'
 group = 'com.cyssxt'
@@ -28,6 +28,6 @@ dependencies {
     compile group: 'asm', name: 'asm', version: '3.3.1'
 }
 
-jpaModelgen {
-    sourcesRootDir = "src/generated"
-}
+//jpaModelgen {
+//    sourcesRootDir = "src/generated"
+//}
