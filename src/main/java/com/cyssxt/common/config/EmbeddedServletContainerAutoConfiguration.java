@@ -19,7 +19,7 @@ public class EmbeddedServletContainerAutoConfiguration {
 
     private final static Logger logger = LoggerFactory.getLogger(EmbeddedServletContainerAutoConfiguration.class);
 
-    @Value("${server.tomcat.docbase}")
+    @Value("${server.tomcat.docbase:/data/tmp/springboot}")
     private  String tomcatBaseDirectory;
     @Bean
     public ConfigurableServletWebServerFactory servletContainer() {
