@@ -166,4 +166,7 @@ public class CommonUtils {
         return pattern.matcher(str).matches();
     }
 
+    public static Object getValue(Object type, Object i) {
+        return type==null?i:type;
+    }
 }
