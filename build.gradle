@@ -1,6 +1,9 @@
+plugins {
+    id "io.freefair.lombok" version "3.7.5"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: "io.freefair.lombok" version "3.7.5"
 
 //apply plugin: 'com.cyssxt.jpamodelgen'
 //apply plugin: 'io.spring.dependency-management'
