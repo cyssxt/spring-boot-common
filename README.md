@@ -1,4 +1,5 @@
 # spring-boot-common
+
 ### 一、全局异常抛出
 <pre><code>
  throw new ValidException("user.should.login");
@@ -34,8 +35,28 @@
 #### 3、注意default.properties优先级最低，如果其他国际化没有配置，则会读取default.properties
 #### 4、使用
 <pre><code>throw new ValidException("user.should.login")</code></pre>
+### 5、配置docbase tomcat启动的context路径
+<pre><code>
+server.tomcat.docbase:/data/tmp/springboot默认值
+</code></pre>
 ### 三、用户校验
-1、Authorization（授权校验）
+#### 1、实现UserLoginListener方法 示例
+<pre><code>
+@Component("userLoginListener")
+public class UserLoginListenerImpl extends UserLoginListener {
+    @Override
+    public void cacheUserInfo(String sessionId) throws ValidException {
+    //缓存用户信息
+    }
+
+    @Override
+    public boolean login(Authorization authorization) throws ValidException {
+        //判断用户是否登陆授权 false表示未授权
+        return false;
+    }
+}
+</code></pre>
+#### 2、Authorization（授权校验）
 默认登陆校验
 existSession校验入参是否校验sessionId
 ### UserLoginListener  用户登陆校验需要override

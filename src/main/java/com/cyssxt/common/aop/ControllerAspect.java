@@ -78,13 +78,7 @@ public class ControllerAspect {
                 request = (HttpServletRequest) object;
             }
         }
-        //校验sessionId是否有效
-        if (!StringUtils.isEmpty(sessionId)){
-            if(!userLoginListener.checkSessionId(sessionId)) {
-                throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
-            }
-            userLoginListener.cacheUserInfo(sessionId);
-        }
+
         Authorization authorization = method.getAnnotation(Authorization.class);
         if (authorization != null) {
             if (authorization.existSession()) {
@@ -92,11 +86,19 @@ public class ControllerAspect {
                     throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
                 }
             } else {
-                if (userLoginListener != null && !userLoginListener.login(authorization)) {
+                if (userLoginListener != null && !userLoginListener.checkLogin(authorization,sessionId)) {
                     throw new ValidException(ErrorMessage.AUTH_NOT_ENOUGH.getMessageInfo());
                 }
             }
         }
+
+        //校验sessionId是否有效
+        if (!StringUtils.isEmpty(sessionId)){
+            if(!userLoginListener.checkSessionId(sessionId)) {
+                throw new ValidException(ErrorMessage.SESSION_NOT_VALID.getMessageInfo());
+            }
+        }
+
         ValidRepeat validRepeat = method.getAnnotation(ValidRepeat.class);
         if (validRepeat != null) {
             String className = joinPoint.getTarget().getClass().getName();
