@@ -1,5 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: "io.freefair.lombok" version "3.7.5"
+
 //apply plugin: 'com.cyssxt.jpamodelgen'
 //apply plugin: 'io.spring.dependency-management'
 def springBootVersion = '2.1.1.RELEASE'
