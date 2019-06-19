@@ -1,7 +1,15 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        flatDir dirs: "./libs"
+    }
+    dependencies {
+        classpath files('libs/jpamodelgen-plugin-2.0.0.jar')
+    }
+}
 apply plugin: 'java'
 apply plugin: 'eclipse'
-
-//apply plugin: 'com.cyssxt.jpamodelgen'
+apply plugin: 'com.cyssxt.jpamodelgen'
 //apply plugin: 'io.spring.dependency-management'
 def springBootVersion = '2.1.1.RELEASE'
 group = 'com.cyssxt'
@@ -10,6 +18,10 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+jpaModelgen {
+    sourcesRootDir = "src/generated"
 }
 
 
