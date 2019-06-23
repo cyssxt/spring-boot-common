@@ -37,7 +37,7 @@ public class Copy {
                 Method writeMethod =writeMethods.get(key);
                 if((filter==null || filter.valid(key,object)) && writeMethod!=null){
                     logger.debug("parse,fieldName={}",key);
-                    writeMethod.invoke(t,object);
+                    writeMethod.invoke(flag?this:t,object);
                 }
             }
         } catch (Exception e) {
