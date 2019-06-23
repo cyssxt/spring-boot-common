@@ -24,17 +24,17 @@ public class JpaUtil {
     }
 
     public static <T> T check(Integer id, CommonRepository repository, boolean throwException) throws ValidException {
-        T entity = getEntity(throwException, StringUtils.isEmpty(id), repository.findById(id));
+        if(StringUtils.isEmpty(id)){
+            throw new ValidException(ErrorMessage.ID_NOT_NULL.getMessageInfo());
+        }
+        T entity = getEntity(throwException, repository.findById(id));
         return entity;
     }
 
     public static <T> T getEntity(CommonRepository commonRepository,Object userId) throws ValidException {
-        return getEntity(true,true,commonRepository.findById(userId));
+        return getEntity(true,commonRepository.findById(userId));
     }
-    public static <T> T getEntity(boolean throwException, boolean empty, Optional byId) throws ValidException {
-        if (empty) {
-            throw new ValidException(ErrorMessage.ID_NOT_NULL.getMessageInfo());
-        }
+    public static <T> T getEntity(boolean throwException, Optional byId) throws ValidException {
         Optional<T> optional = byId;
         if (!optional.isPresent()) {
             if (throwException) {
@@ -47,7 +47,7 @@ public class JpaUtil {
     }
 
     public static <T extends BaseEntity> T check(Object id, CommonRepository repository, boolean throwException) throws ValidException {
-        T entity = getEntity(throwException, StringUtils.isEmpty(id), repository.findById(id));
+        T entity = getEntity(throwException, repository.findById(id));
         if (entity == null) return null;
         return check(entity,throwException);
     }
