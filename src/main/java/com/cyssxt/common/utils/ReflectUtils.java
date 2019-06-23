@@ -19,6 +19,10 @@ import java.util.*;
 public class ReflectUtils {
     private final static Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
 
+
+    public interface FieldListener {
+        String getFieldName(String key);
+    }
     static Map<String, Map<String, Method>> sourceReader = new HashMap<>();
     static Map<String, Map<String, Method>> targetWriter = new HashMap<>();
     static Map<Class, Map<String, Boolean>> fieldMap = new HashMap<>();
@@ -27,7 +31,11 @@ public class ReflectUtils {
     public static final int WRITE = 1;//写方法
 
     public static Map<String, Method> getReadMapper(Class clazz) throws IntrospectionException {
-        return getMap(clazz, READ);
+        return getReadMapper(clazz,null);
+    }
+
+    public static Map<String, Method> getReadMapper(Class clazz,FieldListener fieldListener) throws IntrospectionException {
+        return getMap(clazz, READ,fieldListener);
     }
 
     public static boolean hasField(Class clazz, String fieldName) {
@@ -66,7 +74,7 @@ public class ReflectUtils {
         return flag;
     }
 
-    public static Map<String, Method> getMap(Class clazz, int type) {
+    public static Map<String, Method> getMap(Class clazz, int type,FieldListener fieldListener) {
         Map<String, Map<String, Method>> mapper = type == READ ? sourceReader : targetWriter;
         String className = clazz.getName();
         Map<String, Method> sourceMap = mapper.get(className);
@@ -76,6 +84,9 @@ public class ReflectUtils {
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
                 String fieldName = field.getName();
+                if(fieldListener!=null){
+                    fieldName = fieldListener.getFieldName(fieldName);
+                }
                 Class dataType = field.getType();
                 if (dataType == Logger.class) {
                     continue;
@@ -94,7 +105,7 @@ public class ReflectUtils {
             }
             Class supperClass = clazz.getSuperclass();
             if (supperClass != null) {
-                Map<String, Method> parentMap = getMap(supperClass, type);
+                Map<String, Method> parentMap = getMap(supperClass, type,fieldListener);
                 sourceMap.putAll(parentMap);
             }
         }
@@ -103,7 +114,11 @@ public class ReflectUtils {
     }
 
     public static Map<String, Method> getWriteMap(Class clazz) throws IntrospectionException {
-        return getMap(clazz, WRITE);
+        return getWriteMap(clazz,null);
+    }
+
+    public static Map<String, Method> getWriteMap(Class clazz,FieldListener fieldListener) throws IntrospectionException {
+        return getMap(clazz, WRITE,fieldListener);
     }
 
     public static Map<String, ReflectBean> getBeanMap(Class clazz, int type, Boolean ignoreCase) {

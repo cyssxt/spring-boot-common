@@ -16,13 +16,17 @@ public class Copy {
         parse(t, (key, o) -> o!=null || "expireTime".equals(key));
         return t;
     }
-
     public <T>T parse(T t,Filter filter) throws ValidException {
+        return parse(t,filter,false,null);
+    }
+    public <T>T parse(T t, Filter filter, boolean flag, ReflectUtils.FieldListener fieldListener) throws ValidException {
         Map<String,Method> readMethods = null;
         Map<String,Method> writeMethods = null;
         try {
-            readMethods = ReflectUtils.getReadMapper(this.getClass());
-            writeMethods  = ReflectUtils.getWriteMap(t.getClass());
+            Class readClass  = flag?t.getClass():this.getClass();
+            Class writeClass  = flag?this.getClass():t.getClass();
+            readMethods = ReflectUtils.getReadMapper(readClass,fieldListener);
+            writeMethods  = ReflectUtils.getWriteMap(writeClass,fieldListener);
             Iterator<String> iterator = readMethods.keySet().iterator();
             String lastKey = null;
             while (iterator.hasNext()){
