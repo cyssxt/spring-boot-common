@@ -33,7 +33,7 @@ public class Copy {
                 String key = iterator.next();
                 lastKey = key;
                 Method read = readMethods.get(key);
-                Object object = read.invoke(this);
+                Object object = read.invoke(flag?t:this);
                 Method writeMethod =writeMethods.get(key);
                 if((filter==null || filter.valid(key,object)) && writeMethod!=null){
                     logger.debug("parse,fieldName={}",key);
