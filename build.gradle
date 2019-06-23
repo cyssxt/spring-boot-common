@@ -1,6 +1,15 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        flatDir dirs: "./libs"
+    }
+    dependencies {
+        classpath files('libs/jpamodelgen-plugin-2.0.0.jar')
+    }
+}
 apply plugin: 'java'
 apply plugin: 'eclipse'
-//apply plugin: 'com.cyssxt.jpamodelgen'
+apply plugin: 'com.cyssxt.jpamodelgen'
 //apply plugin: 'io.spring.dependency-management'
 def springBootVersion = '2.1.1.RELEASE'
 group = 'com.cyssxt'
@@ -9,6 +18,10 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+}
+
+jpaModelgen {
+    sourcesRootDir = "src/generated"
 }
 
 
@@ -25,6 +38,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     compile("io.springfox:springfox-swagger-ui:2.9.2")
     compile("io.springfox:springfox-swagger2:2.9.2")
+    compile("org.hibernate:hibernate-jpamodelgen:5.4.3.Final")
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.6'
     compile group: 'asm', name: 'asm', version: '3.3.1'
 }
