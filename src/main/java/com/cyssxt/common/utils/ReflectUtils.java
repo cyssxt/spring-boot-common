@@ -84,9 +84,6 @@ public class ReflectUtils {
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
                 String fieldName = field.getName();
-                if(fieldListener!=null){
-                    fieldName = fieldListener.getFieldName(fieldName);
-                }
                 Class dataType = field.getType();
                 if (dataType == Logger.class) {
                     continue;
@@ -97,6 +94,9 @@ public class ReflectUtils {
                     Method read = type == READ ? pd.getReadMethod() : pd.getWriteMethod();
                     if (read == null) {
                         continue;
+                    }
+                    if(fieldListener!=null){
+                        fieldName = fieldListener.getFieldName(fieldName);
                     }
                     sourceMap.put(fieldName, read);
                 } catch (IntrospectionException e) {
