@@ -5,11 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -189,7 +192,14 @@ public class ReflectUtils {
                     }else {
                         param = Byte.valueOf(obj);
                     }
-                } if(type.equals(String.class)){
+                }else if(type.equals(Blob.class)){
+                    try {
+                        param = new SerialBlob((byte[])object);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(type.equals(String.class)){
                     param = obj;
                 }
             }else{
