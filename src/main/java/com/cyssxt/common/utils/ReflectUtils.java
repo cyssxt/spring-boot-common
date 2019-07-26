@@ -5,11 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -19,6 +22,10 @@ import java.util.*;
 public class ReflectUtils {
     private final static Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
 
+
+    public interface FieldListener {
+        String getFieldName(String key);
+    }
     static Map<String, Map<String, Method>> sourceReader = new HashMap<>();
     static Map<String, Map<String, Method>> targetWriter = new HashMap<>();
     static Map<Class, Map<String, Boolean>> fieldMap = new HashMap<>();
@@ -27,7 +34,11 @@ public class ReflectUtils {
     public static final int WRITE = 1;//写方法
 
     public static Map<String, Method> getReadMapper(Class clazz) throws IntrospectionException {
-        return getMap(clazz, READ);
+        return getReadMapper(clazz,null);
+    }
+
+    public static Map<String, Method> getReadMapper(Class clazz,FieldListener fieldListener) throws IntrospectionException {
+        return getMap(clazz, READ,fieldListener);
     }
 
     public static boolean hasField(Class clazz, String fieldName) {
@@ -66,7 +77,7 @@ public class ReflectUtils {
         return flag;
     }
 
-    public static Map<String, Method> getMap(Class clazz, int type) {
+    public static Map<String, Method> getMap(Class clazz, int type,FieldListener fieldListener) {
         Map<String, Map<String, Method>> mapper = type == READ ? sourceReader : targetWriter;
         String className = clazz.getName();
         Map<String, Method> sourceMap = mapper.get(className);
@@ -87,6 +98,9 @@ public class ReflectUtils {
                     if (read == null) {
                         continue;
                     }
+                    if(fieldListener!=null){
+                        fieldName = fieldListener.getFieldName(fieldName);
+                    }
                     sourceMap.put(fieldName, read);
                 } catch (IntrospectionException e) {
                     logger.error("e={}", e);
@@ -94,7 +108,7 @@ public class ReflectUtils {
             }
             Class supperClass = clazz.getSuperclass();
             if (supperClass != null) {
-                Map<String, Method> parentMap = getMap(supperClass, type);
+                Map<String, Method> parentMap = getMap(supperClass, type,fieldListener);
                 sourceMap.putAll(parentMap);
             }
         }
@@ -103,7 +117,11 @@ public class ReflectUtils {
     }
 
     public static Map<String, Method> getWriteMap(Class clazz) throws IntrospectionException {
-        return getMap(clazz, WRITE);
+        return getWriteMap(clazz,null);
+    }
+
+    public static Map<String, Method> getWriteMap(Class clazz,FieldListener fieldListener) throws IntrospectionException {
+        return getMap(clazz, WRITE,fieldListener);
     }
 
     public static Map<String, ReflectBean> getBeanMap(Class clazz, int type, Boolean ignoreCase) {
@@ -174,7 +192,14 @@ public class ReflectUtils {
                     }else {
                         param = Byte.valueOf(obj);
                     }
-                } if(type.equals(String.class)){
+                }else if(type.equals(Blob.class)){
+                    try {
+                        param = new SerialBlob((byte[])object);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(type.equals(String.class)){
                     param = obj;
                 }
             }else{

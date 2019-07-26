@@ -22,14 +22,19 @@ public class QueryUtil {
     }
 
     public interface PageParameter<T extends PageReq> extends ReqParameter<T>{
+        @Override
         void initParam(Query query,T t) throws ValidException;
     }
     public  static <T> PageResponse<T> applyNativePage(String sql, EntityManager entityManager, PageReq pageReq, PageParameter parameter, ResultTransformer transformer) throws ValidException {
         Query query = entityManager.createNativeQuery(sql);
-        parameter.initParam(query,pageReq);
+        if(null!=parameter){
+            parameter.initParam(query,pageReq);
+        }
         query.unwrap(NativeQueryImpl.class).setResultTransformer(transformer);
         Query totalQuery = entityManager.createNativeQuery(String.format("select count(1) countBean from (%s) A",sql));
-        parameter.initParam(totalQuery,pageReq);
+        if(null!=parameter) {
+            parameter.initParam(totalQuery, pageReq);
+        }
         Number totalNumber = (Number)totalQuery.getSingleResult();
         long totalCount = totalNumber.longValue();
         int pageNo = pageReq.getPageNo();

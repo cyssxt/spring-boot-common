@@ -23,18 +23,32 @@ public class JpaUtil {
         return check(id,repository,true);
     }
 
-    public static <T extends BaseEntity> T check(Object id, CommonRepository repository, boolean throwException) throws ValidException {
+    public static <T> T check(Integer id, CommonRepository repository, boolean throwException) throws ValidException {
         if(StringUtils.isEmpty(id)){
             throw new ValidException(ErrorMessage.ID_NOT_NULL.getMessageInfo());
         }
-        Optional<T> optional = repository.findById(id);
-        if(!optional.isPresent()){
-            if(throwException){
+        T entity = getEntity(throwException, repository.findById(id));
+        return entity;
+    }
+
+    public static <T> T getEntity(CommonRepository commonRepository,Object userId) throws ValidException {
+        return getEntity(true,commonRepository.findById(userId));
+    }
+    public static <T> T getEntity(boolean throwException, Optional byId) throws ValidException {
+        Optional<T> optional = byId;
+        if (!optional.isPresent()) {
+            if (throwException) {
                 throw new ValidException(ErrorMessage.NOT_EXIST.getMessageInfo());
             }
             return null;
         }
         T entity = optional.get();
+        return entity;
+    }
+
+    public static <T extends BaseEntity> T check(Object id, CommonRepository repository, boolean throwException) throws ValidException {
+        T entity = getEntity(throwException, repository.findById(id));
+        if (entity == null) return null;
         return check(entity,throwException);
     }
 

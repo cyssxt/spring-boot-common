@@ -121,12 +121,12 @@ public class CommonUtils {
     }
 
     public static void main(String[] args) {
-//        System.out.println(CommonUtils.getMD5("123456"));
-        String mac = "ac:bc:32:7c:d5:77";
-        String key = "jdj2ujfj2i5jniu";
-        String token = getMD5(key+mac);
-        String href ="http://192.168.10.254:2060/wifidog/auth?token="+token+"&mac="+mac;
-        System.out.println(href);
+        System.out.println(CommonUtils.getMD5("123456"));
+//        String mac = "ac:bc:32:7c:d5:77";
+//        String key = "jdj2ujfj2i5jniu";
+//        String token = getMD5(key+mac);
+//        String href ="http://192.168.10.254:2060/wifidog/auth?token="+token+"&mac="+mac;
+//        System.out.println(href);
     }
 
     private final static Map<String,Integer> cacheOrder = new HashMap<>();
@@ -166,4 +166,7 @@ public class CommonUtils {
         return pattern.matcher(str).matches();
     }
 
+    public static Object getValue(Object type, Object i) {
+        return type==null?i:type;
+    }
 }
