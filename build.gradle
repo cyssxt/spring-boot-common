@@ -1,9 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'maven'
 //apply plugin: 'io.spring.dependency-management'
 def springBootVersion = '2.1.1.RELEASE'
 group = 'com.cyssxt'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {

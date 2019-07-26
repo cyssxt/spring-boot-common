@@ -121,7 +121,7 @@ public class ControllerAspect {
             responseData.setNextReqId(nextReqId);
             responseData.setReqTime(endTime.getTime() - start.getTime());
         }
-        logger.info("aop end={},start={},end={}", new java.util.Date(), start, endTime);
+//        logger.info("aop end={},start={},end={}", new java.util.Date(), start, endTime);
         return result;
     }
 }
