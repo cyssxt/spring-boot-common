@@ -2,6 +2,7 @@ package com.cyssxt.common.utils;
 
 import com.cyssxt.common.exception.ValidException;
 import com.cyssxt.common.hibernate.transformer.IgnoreCaseResultTransformer;
+import com.cyssxt.common.hibernate.transformer.StringTransformer;
 import com.cyssxt.common.request.BaseReq;
 import com.cyssxt.common.request.PageReq;
 import com.cyssxt.common.response.PageResponse;
@@ -15,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Map;
 
 public class QueryUtil {
     public interface ReqParameter<T extends BaseReq>{
@@ -146,6 +148,20 @@ public class QueryUtil {
     public  static <T> T applyFirst(String sql,EntityManager entityManager, ReqParameter parameter, ResultTransformer resultTransformer) throws ValidException {
         List<T> t =  applyNativeList(sql,entityManager,parameter,resultTransformer);
         return CollectionUtils.isEmpty(t)?null:t.get(0);
+    }
+
+    public  static <T> T applySignleStringResult(String sql,EntityManager entityManager) throws ValidException {
+        List<T> t =  applyNativeList(sql,entityManager,null,new StringTransformer());
+        return CollectionUtils.isEmpty(t)?null:t.get(0);
+    }
+
+    public  static List<Map<String, Object>> applyNativeListMap(String sql, EntityManager entityManager) throws ValidException {
+        Query query = entityManager.createNativeQuery(sql);
+        // 将结果转化为 Map<tableKey, keyValue>
+        query.unwrap(NativeQueryImpl.class)
+                .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List<Map<String, Object>> list = query.getResultList();
+        return list;
     }
 
     public static String like(String value){

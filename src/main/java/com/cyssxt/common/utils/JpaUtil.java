@@ -3,6 +3,7 @@ package com.cyssxt.common.utils;
 import com.cyssxt.common.constant.ErrorMessage;
 import com.cyssxt.common.dao.CommonRepository;
 import com.cyssxt.common.entity.BaseEntity;
+import com.cyssxt.common.entity.IdEntity;
 import com.cyssxt.common.exception.ValidException;
 import org.springframework.util.StringUtils;
 
@@ -77,4 +78,14 @@ public class JpaUtil {
         return check(entity,true,null);
     }
 
+    public static <V extends IdEntity,U> V checkEntity(U id, CommonRepository commonRepository) throws ValidException {
+        if(id==null){
+            throw new ValidException(ErrorMessage.ID_NOT_NULL.getMessageInfo());
+        }
+        Optional<V> optional = commonRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new ValidException(ErrorMessage.NOT_EXIST.getMessageInfo());
+    }
 }
