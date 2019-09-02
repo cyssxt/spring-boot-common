@@ -2,11 +2,11 @@ package com.cyssxt.common.utils;
 
 import com.cyssxt.common.exception.ValidException;
 import com.cyssxt.common.hibernate.transformer.IgnoreCaseResultTransformer;
+import com.cyssxt.common.hibernate.transformer.ObjectTransformer;
 import com.cyssxt.common.hibernate.transformer.StringTransformer;
 import com.cyssxt.common.request.BaseReq;
 import com.cyssxt.common.request.PageReq;
 import com.cyssxt.common.response.PageResponse;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.query.spi.NativeQueryImplementor;
 import org.hibernate.transform.ResultTransformer;
@@ -15,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +24,23 @@ public class QueryUtil {
         void initParam(Query query, T t) throws ValidException;
     }
 
+    public interface Parameter{
+        void init(Query query) throws ValidException;
+    }
+
     public interface PageParameter<T extends PageReq> extends ReqParameter<T>{
         @Override
         void initParam(Query query,T t) throws ValidException;
     }
+
+    public static void execute(String sql,EntityManager entityManager,Parameter parameter) throws ValidException {
+        Query query = entityManager.createNativeQuery(sql);
+        if(parameter!=null) {
+            parameter.init(query);
+        }
+        query.executeUpdate();
+    }
+
     public  static <T> PageResponse<T> applyNativePage(String sql, EntityManager entityManager, PageReq pageReq, PageParameter parameter, ResultTransformer transformer) throws ValidException {
         Query query = entityManager.createNativeQuery(sql);
         if(null!=parameter){
@@ -152,6 +166,11 @@ public class QueryUtil {
 
     public  static <T> T applySignleStringResult(String sql,EntityManager entityManager) throws ValidException {
         List<T> t =  applyNativeList(sql,entityManager,null,new StringTransformer());
+        return CollectionUtils.isEmpty(t)?null:t.get(0);
+    }
+
+    public  static <T> T applySignleObjectResult(String sql,EntityManager entityManager) throws ValidException {
+        List<T> t =  applyNativeList(sql,entityManager,null,new ObjectTransformer());
         return CollectionUtils.isEmpty(t)?null:t.get(0);
     }
 
