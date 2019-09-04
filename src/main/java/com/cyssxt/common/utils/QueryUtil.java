@@ -15,7 +15,6 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class QueryUtil {
     }
 
     public interface Parameter{
-        void init(Query query) throws ValidException;
+        void init(Query query);
     }
 
     public interface PageParameter<T extends PageReq> extends ReqParameter<T>{
@@ -33,7 +32,7 @@ public class QueryUtil {
         void initParam(Query query,T t) throws ValidException;
     }
 
-    public static void execute(String sql,EntityManager entityManager,Parameter parameter) throws ValidException {
+    public static void execute(String sql, EntityManager entityManager, Parameter parameter) {
         Query query = entityManager.createNativeQuery(sql);
         if(parameter!=null) {
             parameter.init(query);
@@ -174,7 +173,7 @@ public class QueryUtil {
         return CollectionUtils.isEmpty(t)?null:t.get(0);
     }
 
-    public  static List<Map<String, Object>> applyNativeListMap(String sql, EntityManager entityManager) throws ValidException {
+    public  static List<Map<String, Object>> applyNativeListMap(String sql, EntityManager entityManager){
         Query query = entityManager.createNativeQuery(sql);
         // 将结果转化为 Map<tableKey, keyValue>
         query.unwrap(NativeQueryImpl.class)

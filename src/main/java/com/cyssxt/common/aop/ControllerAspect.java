@@ -31,15 +31,12 @@ public class ControllerAspect {
     private final Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
 
     @Resource
+    MvcErrorHandler mvcErrorHandler;
+
+    @Resource
     private UserLoginListener userLoginListener;
 
-//    @Pointcut("execution(public * com.cyssxt.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
-//    public void point() {
-//
-//    }
-
-
-    @Around("execution(public * com.*.*.controller.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    @Around("execution(public * com.*.*.service.*.*(..)) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public Object validController(ProceedingJoinPoint joinPoint) throws ValidException {
         Timestamp start = DateUtils.getCurrentTimestamp();
         logger.info("aop start={}", new java.util.Date());
@@ -111,9 +108,13 @@ public class ControllerAspect {
             result = joinPoint.proceed();
         } catch (Throwable throwable) {
             logger.error("validController={}", throwable);
+            if(mvcErrorHandler!=null) {
+                mvcErrorHandler.throwException(throwable);
+            }
             if (throwable instanceof ValidException) {
                 throw (ValidException) throwable;
             }
+            throwable.printStackTrace();
             throw new ValidException(ErrorMessage.FAIL.getMessageInfo(), throwable);
         }
         Timestamp endTime = DateUtils.getCurrentTimestamp();
