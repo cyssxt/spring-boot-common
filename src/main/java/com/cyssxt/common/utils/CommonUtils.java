@@ -130,14 +130,20 @@ public class CommonUtils {
     }
 
     private final static Map<String,Integer> cacheOrder = new HashMap<>();
+    private static String prefixDateInfo = null;
 
     public static String getOrderNo() {
         Random random = new Random();
-        String orderNo = String.format("%s%s",DateUtils.getDataFormatString(new Date(),DateUtils.YYYYMMDDHHMMSS),random.nextInt(10000));
+        String dateInfo = DateUtils.getDataFormatString(new Date(),DateUtils.YYYYMMDDHHMMSS);
+        if(dateInfo!=null && !dateInfo.equals(prefixDateInfo)){
+            cacheOrder.clear();
+        }
+        String orderNo = String.format("%s%s",dateInfo,random.nextInt(10000));
         Integer old = cacheOrder.get(orderNo);
         if(old!=null){
             orderNo = getOrderNo();
         }
+        prefixDateInfo = dateInfo;
         cacheOrder.put(orderNo,1);
         return orderNo;
     }
