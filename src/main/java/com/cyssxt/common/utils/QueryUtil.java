@@ -39,6 +39,9 @@ public class QueryUtil {
         }
         query.executeUpdate();
     }
+    public static void execute(String sql, EntityManager entityManager){
+        execute(sql,entityManager,null);
+    }
 
     public  static <T> PageResponse<T> applyNativePage(String sql, EntityManager entityManager, PageReq pageReq, PageParameter parameter, ResultTransformer transformer) throws ValidException {
         Query query = entityManager.createNativeQuery(sql);
@@ -168,18 +171,24 @@ public class QueryUtil {
         return CollectionUtils.isEmpty(t)?null:t.get(0);
     }
 
-    public  static <T> T applySignleObjectResult(String sql,EntityManager entityManager) throws ValidException {
+    public  static <T> T applySingleObjectResult(String sql, EntityManager entityManager) throws ValidException {
         List<T> t =  applyNativeList(sql,entityManager,null,new ObjectTransformer());
         return CollectionUtils.isEmpty(t)?null:t.get(0);
     }
 
-    public  static List<Map<String, Object>> applyNativeListMap(String sql, EntityManager entityManager){
+    public  static List<Map<String, Object>> applyNativeListMap(String sql, EntityManager entityManager,Parameter parameter){
         Query query = entityManager.createNativeQuery(sql);
+        if(parameter!=null){
+            parameter.init(query);
+        }
         // 将结果转化为 Map<tableKey, keyValue>
         query.unwrap(NativeQueryImpl.class)
                 .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
         List<Map<String, Object>> list = query.getResultList();
         return list;
+    }
+    public  static List<Map<String, Object>> applyNativeListMap(String sql, EntityManager entityManager){
+        return applyNativeListMap(sql,entityManager,null);
     }
 
     public static String like(String value){
