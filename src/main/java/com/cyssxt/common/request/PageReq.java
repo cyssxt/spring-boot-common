@@ -38,4 +38,5 @@ public class PageReq extends BaseReq {
     public Pageable toPageable(Sort sort){
         return PageRequest.of(pageNo-1,pageSize,sort);
     }
+
 }
