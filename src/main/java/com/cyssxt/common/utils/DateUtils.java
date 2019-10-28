@@ -3,6 +3,8 @@ package com.cyssxt.common.utils;
 
 import com.cyssxt.common.constant.ErrorMessage;
 import com.cyssxt.common.exception.ValidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -10,12 +12,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by zqy on 18/05/2018.
  */
 public class DateUtils {
 
+    private  final  static Logger logger = LoggerFactory.getLogger(DateUtils.class);
     public final static String YYYYMMDD = "yyyyMMdd";
     public final static String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
     public final static String YYYYMMDDHHMM = "yyyyMMddHHmm";
@@ -26,6 +31,7 @@ public class DateUtils {
     public static final String HHMM = "HHmm";
     public static final String YYYYMM = "yyyyMM";
     public static final String MM = "MM";
+    public static final String[] FORMATS = new String[]{YYYY_MM_DD_HH_MM_SS,YYYY_MM_DD};
 
     public static Timestamp getCurrentTimestamp(){
         return new Timestamp(new Date().getTime());
@@ -111,7 +117,28 @@ public class DateUtils {
         return getDataFormatString(new Date(), format);
     }
 
-    public static void main(String[] args) {
-        System.out.println(getEndTimeOfDay(new Date()));
+    public static void main(String[] args) throws ValidException {
+        System.out.println(getDate("2019-10-22"));
+    }
+
+//    public static Date strToDate(String str,String format) throws ParseException {
+//        SimpleDateFormat sdf = new SimpleDateFormat(format);
+//        return sdf.parse(str);
+//    }
+
+    public static Date getDate(String value) {
+        if(value==null || "".equals(value)){
+            return null;
+        }
+        Date date = null;
+        for(String format:FORMATS) {
+
+            try {
+                date = strToDate(value, format);
+            } catch (ValidException e) {
+                logger.error("format={},value={}",format,value);
+            }
+        }
+        return date;
     }
 }
