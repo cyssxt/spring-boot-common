@@ -33,6 +33,25 @@ public class SqlUtil {
 
     }
 
+    public static String getDeleteQuery(String tableName,List<String> delFields,List<Object> delValues){
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(String.format("delete from %s ",tableName));
+        List<String> updates = new ArrayList<>();
+//        for(int i=0;i<delFields.size();i++){
+//            String updateField = delFields.get(i);
+//            updates.add(String.format("%s=?",updateField));
+//        }
+//        stringBuffer.append(String.join(",",updates));
+        stringBuffer.append(" where ");
+        List<String> wheres = new ArrayList<>();
+        for(int i=0;i<delFields.size();i++){
+            String field = delFields.get(i);
+            wheres.add(String.format("%s=?",field));
+        }
+        stringBuffer.append(String.join(" and ",wheres));
+        return stringBuffer.toString();
+    }
+
     public static String getUpdateQuery(String tableName, List<String> fields,List<String> updateFields){
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(String.format("update %s set ",tableName));
@@ -50,7 +69,6 @@ public class SqlUtil {
         }
         stringBuffer.append(String.join(" and ",wheres));
         return stringBuffer.toString();
-
     }
 
     public static String getQuerySql(String tableName, List<String> fields){
