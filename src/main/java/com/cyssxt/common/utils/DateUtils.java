@@ -135,6 +135,7 @@ public class DateUtils {
 
             try {
                 date = strToDate(value, format);
+                break;
             } catch (ValidException e) {
                 logger.error("format={},value={}",format,value);
             }
